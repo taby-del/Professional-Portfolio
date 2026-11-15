@@ -2,11 +2,18 @@
   "name": "professional-portfolio",
   "version": "0.1.0",
   "private": true,
+  "description": "Personal professional portfolio showcasing frontend development, UI/UX design and AI-assisted software development.",
+  "engines": {
+    "node": ">=20.9.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typecheck": "next typegen && tsc --noEmit",
+    "check:lines": "node scripts/check-file-length.mjs",
+    "check": "npm run lint && npm run typecheck && npm run check:lines"
   },
   "dependencies": {
     "lucide-react": "^1.73.0",

@@ -1,0 +1,35 @@
+/*
+ * Design tokens: raw values.
+ *
+ * Each semantic color is declared once with light-dark(light, dark).
+ * The browser picks the value from the active `color-scheme`:
+ * - default: follows the OS (`color-scheme: light dark`)
+ * - <html data-theme="light|dark">: forces one theme
+ */
+:root {
+  color-scheme: light dark;
+
+  /* Brand */
+  --brand-primary: #08a3fb;
+  --brand-primary-deep: #1078bc;
+  --brand-gradient: linear-gradient(135deg, #08a3fb 0%, #1078bc 100%);
+
+  /* Semantic colors: light-dark(<light>, <dark>) */
+  --background: light-dark(#ffffff, #070b14);
+  --foreground: light-dark(#0b1220, #e6edf5);
+  --surface: light-dark(#f5f8fb, #0e1522);
+  --surface-elevated: light-dark(#ffffff, #141d2d);
+  --muted: light-dark(#64748b, #94a3b8);
+  --border: light-dark(#e2e8f0, #1f2a3c);
+  --primary: var(--brand-primary);
+  --primary-foreground: #ffffff;
+  --ring: var(--brand-primary);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}

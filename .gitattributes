@@ -1,0 +1,13 @@
+# Store text files with LF line endings in Git on every OS.
+* text=auto eol=lf
+
+# Binary files: never modify
+*.ico binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.avif binary
+*.gif binary
+*.woff2 binary
+*.pdf binary
