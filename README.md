@@ -2,7 +2,7 @@
 
 Personal professional portfolio showcasing frontend development, UI/UX design and AI-assisted software development.
 
-> **Status:** Step 4 of 9 complete (design foundation, buttons, navigation, footer, routes and the Home page). The pages are built step by step from the approved Figma design. The full specification is in [docs/design-handoff.md](docs/design-handoff.md).
+> **Status:** Step 5 of 9 complete (design foundation, buttons, navigation, footer, routes, Home and About). The pages are built step by step from the approved Figma design. The full specification is in [docs/design-handoff.md](docs/design-handoff.md).
 
 ## Contents
 
@@ -149,6 +149,9 @@ professional-portfolio/
     │   ├── globals.css        Stylesheet entry point (imports src/styles)
     │   └── favicon.ico
     ├── components/
+    │   ├── icons/
+    │   │   ├── FigmaLogo.tsx       Figma brand mark (inline SVG)
+    │   │   └── SkillGlyph.tsx      Draws a skill icon: Lucide, brand or monogram
     │   ├── layout/
     │   │   ├── Header.tsx          Site header (full and compact)
     │   │   ├── Footer.tsx          Site footer
@@ -166,10 +169,19 @@ professional-portfolio/
     │   │   └── SocialLinks.tsx     LinkedIn / GitHub / Email
     │   ├── motion/
     │   │   ├── RevealGroup.tsx     Reveals its children in sequence (on load or on scroll)
-    │   │   └── RevealItem.tsx      A child that rises/fades in on the group's cue
+    │   │   ├── RevealItem.tsx      A child that rises/fades in on the group's cue
+    │   │   └── NoScriptReveal.tsx  Shows all content if JavaScript is off
     │   ├── providers/
     │   │   └── MotionProvider.tsx  Lightweight Motion setup + reduced-motion support
     │   ├── sections/          Page sections, one folder per page
+    │   │   ├── about/
+    │   │   │   ├── AboutPage.tsx       Layout: portrait column + intro, then sections
+    │   │   │   ├── Portrait.tsx        Owner photo, 4:5, framed as in the design
+    │   │   │   ├── RoleCard.tsx        Roles, location, languages
+    │   │   │   ├── AboutIntro.tsx      Eyebrow, "About Me", paragraphs, CV
+    │   │   │   ├── FocusGrid.tsx       "Professional Focus" tiles
+    │   │   │   ├── ApproachSection.tsx "My Approach" three steps
+    │   │   │   └── AboutDetails.tsx    Education + Professional Interests
     │   │   └── home/
     │   │       ├── HomeHero.tsx       Layout: intro + card, then tech strip
     │   │       ├── HeroIntro.tsx      Status, name, roles, headline, intro, actions
@@ -190,6 +202,8 @@ professional-portfolio/
     │       │   ├── PrimaryButton.tsx
     │       │   └── SecondaryButton.tsx
     │       ├── DownloadCvButton.tsx  The one shared "Download CV" action
+    │       ├── Eyebrow.tsx           "02 / ABOUT" page eyebrow
+    │       ├── SkillTile.tsx         Skill/focus tile (comfortable, compact, row)
     │       └── icon-control.ts       Shared 44 px square control style
     ├── config/
     │   └── security/
@@ -200,6 +214,7 @@ professional-portfolio/
     │   ├── site.ts            Name, title, logo, social links (pending)
     │   └── theme.ts           Brand colours for TypeScript
     ├── data/
+    │   ├── about.ts           About page copy (intro, focus, approach, details)
     │   ├── home.ts            Home page copy (hero, craft card, toolkit tags)
     │   └── navigation.ts      The six destinations + active-page helper
     ├── hooks/
@@ -228,7 +243,8 @@ professional-portfolio/
     │   ├── theme-transition.css  180 ms colour cross-fade on theme switch
     │   ├── mobile-menu.css       Menu dialog look and 150 ms entrance
     │   └── mobile-menu-responsive.css  Tablet panel, scroll lock, reduced motion
-    └── types/                 Shared TypeScript types
+    └── types/
+        └── skill.ts           Skill icon and tile density types
 ```
 
 Empty folders contain a `.gitkeep` file so Git keeps them until real files are added.
@@ -290,9 +306,10 @@ Each colour is defined once, with the CSS `light-dark()` function, in `src/style
 | Body small  | 14 / 22 px         | `text-body-sm` |
 | Body        | 16 / 26 px         | `text-body`    |
 | Body large  | 18 / 28 px         | `text-body-lg` |
-| Title       | 20 / 28 px         | `text-title`   |
-| Heading     | 28 to 40 px, fluid | `text-heading` |
-| Display     | 36 to 64 px, fluid | `text-display` |
+| Card title  | 17 / 24 px, −0.02em | `text-card-title` ("Education", "Understand the workflow") |
+| Title       | 20 / 28 px         | `text-title` (menu heading) |
+| Heading     | 26 to 32 px, fluid, −0.015em | `text-heading` ("My Approach") |
+| Page title  | 36 to 44 px, fluid, −0.035em | `text-page-title` ("About Me") |
 | Hero        | 40 to 72 px, fluid, semibold, −0.045em tracking, 1.04 leading | `text-hero` (Home headline) |
 
 **Fonts:** Inter for all text (`font-sans`) and JetBrains Mono for labels and technical details (`font-mono`). Both are self-hosted (see `src/lib/fonts.ts`).
@@ -380,6 +397,25 @@ Built from the approved Home 1440 export. Every position was measured from the e
 - **Column gap:** 72 px instead of the design's 88 px. Without it, a 15 px Windows scrollbar would push "That" onto the third line.
 - **Small blue text:** the brand `#08A3FB` is kept for small blue text, as the design specifies. The handoff asks for its contrast to be reviewed in the accessibility pass, not changed silently.
 
+### Pages: About
+
+Built from the approved About 1440 export, measured and checked in the browser.
+
+| Part | Details |
+| --- | --- |
+| Portrait column (424 px) | Owner photo in a 4:5 frame with a 1 px border, then the blue-tinted role card (roles, Cameroon, English & French) |
+| Intro column | "02 / ABOUT", "About Me" (44 px), lead paragraph (18/28), body paragraph (16/26), "Professional Focus" with four compact skill tiles, Download CV + caption |
+| My Approach | 32 px heading, summary, three numbered cards (Understand → Structure → Build) |
+| Details | Education and Professional Interests cards |
+| 768 / 390 | Everything stacks, portrait first (handoff). The portrait stays 4:5, up to 424 px wide. |
+
+- **Portrait framing:** the photo is drawn at 140% of the frame width and offset, so the crop matches the design exactly (head near the top, cut at the stool seat). Plain `object-cover` showed the whole figure, which is too loose. Percentages keep the same framing at every size.
+- **Skill tiles:** `SkillTile` is the shared tile from the handoff (`comfortable`, `compact` and `row` densities). The Skills page will reuse it. Icons are Lucide icons, inline brand logos (Figma) or short blue monograms ("API", "{ }").
+- **Education:** worded exactly as the handoff allows. No degree or completion status is claimed.
+- **CV caption:** shows "PDF · Professional CV" once the PDF is added, and "… coming soon" until then. The design's "supplied during development" was a note for the developer, not copy for visitors.
+- **Measured against the design:** at 1440, every block lands within 0–3 px (portrait 168–698, role card 714–832, approach cards 994–1157).
+- **Approach card padding:** 22 px instead of 24 px. With a 15 px Windows scrollbar, the third card's text would otherwise wrap onto a third line, 1 px short.
+
 ---
 
 ## Theme system
@@ -421,6 +457,10 @@ The design calls for professional, refined animation, and for animations that wo
 3. **0.6 s:** the toolkit tags appear.
 
 The status dot pulses gently, and the contact arrow nudges on hover. All of this uses transform, opacity and blur only, and movement is removed under reduced motion.
+
+**About choreography:** the portrait fades in while the intro lines rise in turn, then the focus tiles cascade, then Download CV appears. My Approach and the detail cards reveal as they scroll into view.
+
+**No-JavaScript safety net:** animated content starts hidden, and JavaScript reveals it. `NoScriptReveal` adds a `<noscript>` style that shows everything immediately if JavaScript is disabled or fails to load, so a page is never blank.
 
 | Interaction (from the handoff) | Duration | Token |
 | --- | --- | --- |
@@ -481,8 +521,8 @@ The site is built one step at a time. Each step is checked against the design, t
 | 2 | Buttons: `PrimaryButton`, `SecondaryButton`, all states | ✅ Done |
 | 3 | Header, compact header, mobile menu, footer, six routes | ✅ Done |
 | 4 | Home (approved design, preserved as-is) | ✅ Done |
-| 5 | About | Next |
-| 6 | Skills | Planned |
+| 5 | About | ✅ Done |
+| 6 | Skills | Next |
 | 7 | Projects | Planned |
 | 8 | Experience | Planned |
 | 9 | Contact (form and email delivery) | Planned |
@@ -499,6 +539,25 @@ The site is built one step at a time. Each step is checked against the design, t
 ## Development log
 
 Every step taken on the project, newest first. **Add an entry for every change.**
+
+### 2026-11-16: Step 5, About page
+
+- **Measured the About export:**
+  - Text rhythm, portrait (424 × 530, 4:5) and role card.
+  - The 2×2 focus tiles (382 × 64), the three approach cards (24 px gaps) and the two detail cards.
+- **Type scale:** replaced the unused `text-display` with the measured `text-page-title` (44 px). Retuned `text-heading` to 32 px and added `text-card-title` (17 px).
+- **Shared components for the remaining pages:**
+  - `Eyebrow` ("02 / ABOUT").
+  - `SkillTile` with the handoff's three densities.
+  - `SkillGlyph` (Lucide icon, brand logo or monogram) and an inline `FigmaLogo`.
+  - A `SkillIcon` type.
+- **Built the About sections:** `AboutPage`, `Portrait`, `RoleCard`, `AboutIntro`, `FocusGrid`, `ApproachSection` and `AboutDetails`. The content lives in `src/data/about.ts`.
+- **Portrait:** matched the design's tighter framing by measuring the cuff positions in the design against the original photo (scale ≈ 0.446). The photo is now 140% of the frame width, offset −10.5% / −5.75%.
+- **Added `NoScriptReveal`:** if JavaScript is off, animated content would otherwise stay invisible.
+- **Verified in the browser:**
+  - Light and dark at 1440, 768 and 390, with blocks within 0–3 px of the design at 1440.
+  - Portrait exactly 4:5 at every width, and no horizontal overflow.
+  - All checks pass (85 files) and the production build succeeds.
 
 ### 2026-11-16: Step 4, Home page
 

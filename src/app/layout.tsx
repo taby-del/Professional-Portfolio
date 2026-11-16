@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { SkipLink } from "@/components/layout/SkipLink";
+import { NoScriptReveal } from "@/components/motion/NoScriptReveal";
 import { MotionProvider } from "@/components/providers/MotionProvider";
 import { ThemeScript } from "@/components/theme/ThemeScript";
 import { BRAND_COLORS } from "@/constants/theme";
@@ -29,6 +30,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" className={`${fontVariables} h-full antialiased`} suppressHydrationWarning>
       <head>
         <ThemeScript />
+        <NoScriptReveal />
       </head>
       <body className="flex min-h-full flex-col">
         <MotionProvider>
