@@ -2,7 +2,7 @@
 
 Personal professional portfolio showcasing frontend development, UI/UX design and AI-assisted software development.
 
-> **Status:** Step 3 of 9 complete (design foundation, buttons, header, mobile menu, footer and the six routes). The pages are built step by step from the approved Figma design. The full specification is in [docs/design-handoff.md](docs/design-handoff.md).
+> **Status:** Step 4 of 9 complete (design foundation, buttons, navigation, footer, routes and the Home page). The pages are built step by step from the approved Figma design. The full specification is in [docs/design-handoff.md](docs/design-handoff.md).
 
 ## Contents
 
@@ -143,7 +143,7 @@ professional-portfolio/
 └── src/
     ├── app/                   App Router: routes, root layout, global stylesheet
     │   ├── layout.tsx         Root shell: fonts, theme script, skip link, header, footer
-    │   ├── page.tsx           Home (/), placeholder until Step 4
+    │   ├── page.tsx           Home (/)
     │   ├── about/ skills/ projects/ experience/ contact/
     │   │   └── page.tsx       One route each, placeholders until Steps 5-9
     │   ├── globals.css        Stylesheet entry point (imports src/styles)
@@ -164,9 +164,21 @@ professional-portfolio/
     │   │   ├── MobileNavList.tsx   Menu links with staggered entrance
     │   │   ├── FooterNav.tsx       Footer links
     │   │   └── SocialLinks.tsx     LinkedIn / GitHub / Email
+    │   ├── motion/
+    │   │   ├── RevealGroup.tsx     Reveals its children in sequence (on load or on scroll)
+    │   │   └── RevealItem.tsx      A child that rises/fades in on the group's cue
     │   ├── providers/
     │   │   └── MotionProvider.tsx  Lightweight Motion setup + reduced-motion support
-    │   ├── sections/          Page sections (hero, about, projects, ...)
+    │   ├── sections/          Page sections, one folder per page
+    │   │   └── home/
+    │   │       ├── HomeHero.tsx       Layout: intro + card, then tech strip
+    │   │       ├── HeroIntro.tsx      Status, name, roles, headline, intro, actions
+    │   │       ├── StatusBadge.tsx    "● Open to opportunities" (pulsing dot)
+    │   │       ├── HeroHeadline.tsx   Word-by-word blur-to-sharp headline
+    │   │       ├── HeroActions.tsx    View My Projects, Download CV, Contact link
+    │   │       ├── CraftCard.tsx      "Digital craft / Workspace" card
+    │   │       ├── CraftStepItem.tsx  One step: Understand / Design / Build
+    │   │       └── TechStrip.tsx      "Design × Engineering" toolkit tags
     │   ├── theme/
     │   │   ├── ThemeScript.tsx     Applies the saved theme before first paint
     │   │   └── ThemeToggle.tsx     Light/Dark switch button
@@ -188,6 +200,7 @@ professional-portfolio/
     │   ├── site.ts            Name, title, logo, social links (pending)
     │   └── theme.ts           Brand colours for TypeScript
     ├── data/
+    │   ├── home.ts            Home page copy (hero, craft card, toolkit tags)
     │   └── navigation.ts      The six destinations + active-page helper
     ├── hooks/
     │   └── useTheme.ts        Reads and changes the site theme
@@ -208,7 +221,8 @@ professional-portfolio/
     │   ├── tokens.css         Colour tokens (light and dark)
     │   ├── states.css         Pressed, glow and disabled tokens
     │   ├── theme.css          Maps tokens and fonts to Tailwind utilities
-    │   ├── scales.css         Typography, spacing, radii, breakpoints
+    │   ├── typography.css     Type scale (eyebrow 10 px … hero 72 px)
+    │   ├── scales.css         Spacing, radii, breakpoints
     │   ├── base.css           Base element styles and page gutters
     │   ├── utilities.css      Custom utilities (brand gradient)
     │   ├── theme-transition.css  180 ms colour cross-fade on theme switch
@@ -269,6 +283,8 @@ Each colour is defined once, with the CSS `light-dark()` function, in `src/style
 
 | Style       | Size / line height | Class          |
 | ----------- | ------------------ | -------------- |
+| Eyebrow     | 10 / 14 px, mono, uppercase | `text-eyebrow` ("DIGITAL CRAFT / WORKSPACE") |
+| Micro       | 11 / 16 px, mono   | `text-micro` (status, step details, tags, copyright) |
 | Caption     | 12 / 18 px         | `text-caption` (footer links, EN, meta) |
 | Label       | 13 / 20 px         | `text-label` (buttons, desktop navigation) |
 | Body small  | 14 / 22 px         | `text-body-sm` |
@@ -277,6 +293,7 @@ Each colour is defined once, with the CSS `light-dark()` function, in `src/style
 | Title       | 20 / 28 px         | `text-title`   |
 | Heading     | 28 to 40 px, fluid | `text-heading` |
 | Display     | 36 to 64 px, fluid | `text-display` |
+| Hero        | 40 to 72 px, fluid, semibold, −0.045em tracking, 1.04 leading | `text-hero` (Home headline) |
 
 **Fonts:** Inter for all text (`font-sans`) and JetBrains Mono for labels and technical details (`font-mono`). Both are self-hosted (see `src/lib/fonts.ts`).
 
@@ -295,7 +312,9 @@ Each colour is defined once, with the CSS `light-dark()` function, in `src/style
 
 ### Components: buttons
 
-Matched to the Figma "Interaction states" sheet and the page headers. Both buttons are 48 px tall, with 8 px corners, a 13 px semibold Inter label and 24 px side padding (Download CV = 134 px wide, as in the design).
+Matched to the Figma "Interaction states" sheet and the page headers. Both buttons are 48 px tall, with 8 px corners and a 13 px semibold Inter label.
+
+**Sizes:** `size="default"` has 24 px side padding and is used in the header, About and Contact (Download CV is 134 px wide, as in the design). `size="compact"` has 18 px padding and is used in the approved Home hero (Download CV is 122 px).
 
 | State | `PrimaryButton` | `SecondaryButton` |
 | --- | --- | --- |
@@ -341,6 +360,26 @@ Measured from the Figma header, footer and mobile-menu exports.
 - **Skip link:** the first Tab press on any page shows "Skip to content", which jumps past the header.
 - **Homepage header:** Home's approved design shows an older header variant (no EN, moon icon, underline under the active link). The site uses **one shared header on every route**, the refined version, so navigation stays consistent between pages.
 
+### Pages: Home
+
+Built from the approved Home 1440 export. Every position was measured from the export and checked in the browser.
+
+| Part | Details |
+| --- | --- |
+| Intro (left) | Pulsing "Open to opportunities" status, name (18 px), roles (13 px brand blue), headline (72 px), intro (16/26), View My Projects + Download CV (compact), "Let's connect / Contact ↗" |
+| Digital Craft card (right) | 386 px card, `#F7F9FC` surface; three steps (Understand, Design highlighted with tint and brand border, Build); the human + AI note |
+| Technology strip | Divider, "DESIGN × ENGINEERING" eyebrow, five mono tags |
+| 1440 / 1280 | Two columns, vertically centred. At 1280 the headline wraps to four lines (handoff: "content wraps naturally"). |
+| 768 / 390 | The card stacks under the intro at full width. The headline scales down to 40 px, and nothing overflows sideways. |
+
+**Measured against the design at 1440:**
+- Status, name, roles, buttons, the strip divider (y 776), the eyebrow (x 96–216) and the page height (888 px) all land within 0–3 px.
+- The headline keeps the design's line breaks: "Designing and Building / Digital Experiences That / Matter."
+
+**Deviations, with reasons:**
+- **Column gap:** 72 px instead of the design's 88 px. Without it, a 15 px Windows scrollbar would push "That" onto the third line.
+- **Small blue text:** the brand `#08A3FB` is kept for small blue text, as the design specifies. The handoff asks for its contrast to be reviewed in the accessibility pass, not changed silently.
+
 ---
 
 ## Theme system
@@ -373,6 +412,15 @@ The design calls for professional, refined animation, and for animations that wo
 6. **Accessible:** `MotionConfig reducedMotion="user"` removes movement for visitors who ask their OS for reduced motion.
 7. **Plain CSS where enough:** hover states and the theme cross-fade use CSS transitions, which have no dependency to go out of date.
 8. **Kept current:** Dependabot opens grouped update pull requests every week, and `npm run check` plus `npm run build` must pass before merging.
+
+**Reveal components:** `RevealGroup` reveals its `RevealItem` children one after another, either on page load (`trigger="mount"`, above the fold) or when scrolled into view (`trigger="view"`). Every page uses them, so every page shares the same motion language.
+
+**Home choreography:**
+1. **0 s:** the intro lines rise in turn, and the headline words sharpen from blur one by one.
+2. **0.35 s:** the Digital Craft card enters, and its three steps cascade in.
+3. **0.6 s:** the toolkit tags appear.
+
+The status dot pulses gently, and the contact arrow nudges on hover. All of this uses transform, opacity and blur only, and movement is removed under reduced motion.
 
 | Interaction (from the handoff) | Duration | Token |
 | --- | --- | --- |
@@ -432,8 +480,8 @@ The site is built one step at a time. Each step is checked against the design, t
 | 1 | Design foundation: tokens, fonts, theme system, animation system | ✅ Done |
 | 2 | Buttons: `PrimaryButton`, `SecondaryButton`, all states | ✅ Done |
 | 3 | Header, compact header, mobile menu, footer, six routes | ✅ Done |
-| 4 | Home (approved design, preserved as-is) | Next |
-| 5 | About | Planned |
+| 4 | Home (approved design, preserved as-is) | ✅ Done |
+| 5 | About | Next |
 | 6 | Skills | Planned |
 | 7 | Projects | Planned |
 | 8 | Experience | Planned |
@@ -451,6 +499,26 @@ The site is built one step at a time. Each step is checked against the design, t
 ## Development log
 
 Every step taken on the project, newest first. **Add an entry for every change.**
+
+### 2026-11-16: Step 4, Home page
+
+- Received the desktop (1440, light) designs for all six pages. They're kept in a local `design/` folder (not committed) as the reference for each step.
+- **Measured the Home export:**
+  - The position of every text line, plus the card, steps, divider and tags.
+  - Text colours (`#08A3FB` and `#64748B`).
+  - Headline settings, matched in the browser: 72 px, semibold, −0.045em, 1.04 leading.
+- **New type tokens** in a new `src/styles/typography.css`, so `scales.css` stays under 50 lines: `text-eyebrow` (10 px), `text-micro` (11 px) and `text-hero` (40–72 px, fluid). Also added a tag radius.
+- **New button sizes:** `size="default"` (24 px padding) and `size="compact"` (18 px, Home). This replaces class overrides, which can't work reliably without a class-merging library.
+- **Built the reusable `RevealGroup` and `RevealItem`,** and the Home sections:
+  - `HomeHero`, `HeroIntro`, `StatusBadge` and `HeroHeadline` (word-by-word reveal).
+  - `HeroActions`, `CraftCard`, `CraftStepItem` and `TechStrip`.
+  - The content lives in `src/data/home.ts`.
+- **Fixed a line-wrapping bug:** each animated headline word carried its trailing space inside its own box, which made the headline wrap early. The spaces now sit between the words, so wrapping matches plain text.
+- **Verified in the browser:**
+  - Light and dark at 1440, 1280, 768 and 390.
+  - Positions within 0–3 px of the design at 1440, and the design's headline line breaks.
+  - No horizontal overflow at 390.
+  - All checks pass (71 files) and the production build succeeds.
 
 ### 2026-11-16: Step 3, header, mobile menu, footer and routes
 

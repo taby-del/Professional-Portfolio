@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ButtonProps } from "./types";
-import { BUTTON_BASE, BUTTON_VARIANTS, type ButtonVariant } from "./variants";
+import { BUTTON_BASE, BUTTON_SIZES, BUTTON_VARIANTS, type ButtonVariant } from "./variants";
 
 type ButtonBaseProps = ButtonProps & { variant: ButtonVariant };
 
@@ -9,12 +9,12 @@ const SAFE_REL = "noopener noreferrer";
 
 /**
  * Renders the right element for the job, all with identical styling:
- * - internal path      -> Next.js <Link> (client-side navigation)
+ * - internal path       -> Next.js <Link> (client-side navigation)
  * - external / download -> <a>
- * - no href            -> <button>
+ * - no href             -> <button>
  */
-export function ButtonBase({ variant, className, ...props }: ButtonBaseProps) {
-  const classes = [BUTTON_BASE, BUTTON_VARIANTS[variant], className]
+export function ButtonBase({ variant, size = "default", className, ...props }: ButtonBaseProps) {
+  const classes = [BUTTON_BASE, BUTTON_VARIANTS[variant], BUTTON_SIZES[size], className]
     .filter(Boolean)
     .join(" ");
 

@@ -1,6 +1,6 @@
-import { PagePlaceholder } from "@/components/layout/PagePlaceholder";
+import { HomeHero } from "@/components/sections/home/HomeHero";
 
-// Temporary until Step 4 builds the approved Home design.
+/** Home (/): the approved homepage design. */
 export default function HomePage() {
-  return <PagePlaceholder title="Home" step={4} />;
+  return <HomeHero />;
 }

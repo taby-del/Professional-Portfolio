@@ -5,7 +5,7 @@
  */
 export const BUTTON_BASE = [
   "relative isolate inline-flex h-control min-w-touch shrink-0 items-center justify-center gap-2",
-  "overflow-hidden rounded-control px-6 text-label font-semibold whitespace-nowrap select-none",
+  "overflow-hidden rounded-control text-label font-semibold whitespace-nowrap select-none",
   "transition-[background-color,border-color,color,box-shadow,scale] duration-150 ease-out",
   "active:duration-100 motion-safe:active:scale-[0.98]",
   "disabled:pointer-events-none disabled:opacity-(--disabled-opacity)",
@@ -32,4 +32,14 @@ export const BUTTON_VARIANTS = {
   secondary: SECONDARY,
 } as const;
 
+/**
+ * Side padding. `default` (24 px) is the design-system button (header,
+ * About, Contact); `compact` (18 px) is the approved Home hero.
+ */
+export const BUTTON_SIZES = {
+  default: "px-6",
+  compact: "px-[1.125rem]",
+} as const;
+
 export type ButtonVariant = keyof typeof BUTTON_VARIANTS;
+export type ButtonSize = keyof typeof BUTTON_SIZES;

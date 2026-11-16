@@ -3,10 +3,13 @@ import type {
   ButtonHTMLAttributes,
   ReactNode,
 } from "react";
+import type { ButtonSize } from "./variants";
 
 type CommonProps = {
   children: ReactNode;
   className?: string;
+  /** Side padding: "default" (24 px) or "compact" (18 px, Home hero). */
+  size?: ButtonSize;
 };
 
 /** No `href`: renders a real <button> (type="button" by default). */

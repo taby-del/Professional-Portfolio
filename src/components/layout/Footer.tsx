@@ -18,7 +18,7 @@ export function Footer() {
         </div>
 
         <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
-          <p className="font-mono text-[0.6875rem] text-muted">
+          <p className="font-mono text-micro text-muted">
             © {SITE.copyrightYear} {SITE.name}. All rights reserved.
           </p>
           <SocialLinks />
