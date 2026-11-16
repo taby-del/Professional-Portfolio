@@ -2,7 +2,7 @@
 
 Personal professional portfolio showcasing frontend development, UI/UX design and AI-assisted software development.
 
-> **Status:** Step 1 of 9 complete (design foundation). The pages are built step by step from the approved Figma design. The full specification is in [docs/design-handoff.md](docs/design-handoff.md).
+> **Status:** Step 2 of 9 complete (design foundation, buttons). The pages are built step by step from the approved Figma design. The full specification is in [docs/design-handoff.md](docs/design-handoff.md).
 
 ## Contents
 
@@ -152,18 +152,28 @@ professional-portfolio/
     │   ├── theme/
     │   │   ├── ThemeScript.tsx     Applies the saved theme before first paint
     │   │   └── ThemeToggle.tsx     Light/Dark switch button
-    │   └── ui/                Reusable primitives (buttons, cards, badges, ...)
+    │   └── ui/                Reusable primitives
+    │       ├── button/
+    │       │   ├── variants.ts       Shared button styles and states
+    │       │   ├── types.ts          Button-or-link prop types
+    │       │   ├── ButtonBase.tsx    Picks <button>, <Link> or <a>
+    │       │   ├── PrimaryButton.tsx
+    │       │   └── SecondaryButton.tsx
+    │       └── DownloadCvButton.tsx  The one shared "Download CV" action
     ├── config/
     │   └── security/
     │       ├── csp.ts         Content-Security-Policy rules and builder
     │       └── headers.ts     HTTP security headers
     ├── constants/
+    │   ├── assets.ts          CV file name and URL
     │   ├── site.ts            Site title and description
     │   └── theme.ts           Brand colours for TypeScript
     ├── data/                  Typed static content (projects, experience, skills)
     ├── hooks/
     │   └── useTheme.ts        Reads and changes the site theme
     ├── lib/
+    │   ├── assets/
+    │   │   └── cv.ts          Build-time check that the CV PDF exists
     │   ├── fonts.ts           Self-hosted Inter and JetBrains Mono
     │   ├── motion/
     │   │   ├── tokens.ts      Animation durations, easings, stagger, distances
@@ -175,6 +185,7 @@ professional-portfolio/
     │       └── store.ts       Global theme store (routes, tabs, OS changes)
     ├── styles/                Design system, one concern per file
     │   ├── tokens.css         Colour tokens (light and dark)
+    │   ├── states.css         Pressed, glow and disabled tokens
     │   ├── theme.css          Maps tokens and fonts to Tailwind utilities
     │   ├── scales.css         Typography, spacing, radii, breakpoints
     │   ├── base.css           Base element styles and page gutters
@@ -256,6 +267,31 @@ Each colour is defined once, with the CSS `light-dark()` function, in `src/style
 | Breakpoints    | 768, 1280 and 1440 px                      | `tablet:`, `laptop:`, `desktop:` |
 
 **Spacing scale:** 4 · 8 · 12 · 16 · 24 · 32 · 40 · 48 · 64 · 80 · 96 px. These are Tailwind's default spacing steps: `1`, `2`, `3`, `4`, `6`, `8`, `10`, `12`, `16`, `20`, `24`.
+
+### Components: buttons
+
+Matched to the Figma "Interaction states" sheet. Both buttons are 48 px tall, with 8 px corners, a 14 px semibold Inter label and 24 px side padding.
+
+| State | `PrimaryButton` | `SecondaryButton` |
+| --- | --- | --- |
+| Default | 135° `#08A3FB` → `#1078BC` gradient, white label | Transparent, 1 px `#08A3FB` outline and label |
+| Hover (150 ms) | Soft brand glow underneath | Blue tint fill (`#EAF4FF` / `#142B45`) |
+| Pressed (100 ms) | Gradient lightens (light theme) or darkens (dark theme); slight 98% press-in | Outline and label shift to `#2CB0FB` / `#098EDB`, tint fill; slight press-in |
+| Disabled | 45% opacity, not clickable | 45% opacity with tint fill, not clickable |
+| Keyboard focus | 2 px brand outline | 2 px brand outline |
+
+**Usage:** pass `href` to get a link styled as a button, or leave it out to get a real `<button>`:
+
+```tsx
+<PrimaryButton href="/contact">Let's talk</PrimaryButton>        // internal link (Next.js <Link>)
+<SecondaryButton href="https://github.com/…" target="_blank">GitHub</SecondaryButton>  // external, safe rel added
+<PrimaryButton onClick={send} disabled={sending}>Send</PrimaryButton>  // real button
+```
+
+- **Primary hover:** the design's hover frame is pixel-identical to its default. A soft glow was added so hovering gives visible feedback. Remove the `hover:shadow` line in `variants.ts` to match Figma exactly.
+- **Press-in:** the 98% press-in is skipped for visitors who prefer reduced motion.
+
+**`DownloadCvButton`** is the one "Download CV" action used everywhere. It links directly to `/documents/Taby_Takoundjou_Jeff_Obrile_Frontend_Developer_CV.pdf` with the `download` attribute, same-origin and with the real file name. At build time it checks that the PDF exists in `public/documents/`. Until it does, the button renders **disabled** ("CV coming soon"), so the site never publishes a broken download, as the handoff requires.
 
 ---
 
@@ -346,8 +382,8 @@ The site is built one step at a time. Each step is checked against the design, t
 | Step | Scope | Status |
 | --- | --- | --- |
 | 1 | Design foundation: tokens, fonts, theme system, animation system | ✅ Done |
-| 2 | Buttons: `PrimaryButton`, `SecondaryButton`, all states | Next |
-| 3 | Header, compact header, mobile menu, footer, six routes | Planned |
+| 2 | Buttons: `PrimaryButton`, `SecondaryButton`, all states | ✅ Done |
+| 3 | Header, compact header, mobile menu, footer, six routes | Next |
 | 4 | Home (approved design, preserved as-is) | Planned |
 | 5 | About | Planned |
 | 6 | Skills | Planned |
@@ -367,6 +403,24 @@ The site is built one step at a time. Each step is checked against the design, t
 ## Development log
 
 Every step taken on the project, newest first. **Add an entry for every change.**
+
+### 2026-11-16: Step 2, buttons
+
+- Measured every button state from the Figma "Interaction states" export in light and dark mode: size, corner radius, gradient, and pressed and disabled colours.
+- Added state tokens (`src/styles/states.css`):
+  - Pressed blue: `#2CB0FB` light, `#098EDB` dark.
+  - Pressed overlay on the gradient.
+  - Hover glow.
+  - 45% disabled opacity.
+- Built `PrimaryButton` and `SecondaryButton` on one shared `ButtonBase` and `variants.ts`, so the two can never drift apart.
+  - Each renders a Next.js `<Link>` for internal pages, a plain `<a>` for external links and downloads (adding `rel="noopener noreferrer"` to new-tab links), or a real `<button>`.
+  - All states are covered: default, hover (150 ms), pressed (100 ms), disabled and keyboard focus.
+- Added `DownloadCvButton` and the shared CV path in `src/constants/assets.ts`. A build-time check (`src/lib/assets/cv.ts`, server-only) keeps the button disabled until the real PDF is added, so there's never a broken download.
+- Verified in the browser:
+  - Sizes: 48 px tall, 8 px corners, 14 px semibold Inter.
+  - Every state colour matches the sampled design values in both themes.
+  - Hover tint and disabled behaviour.
+- The placeholder home page now previews all button states.
 
 ### 2026-11-16: Step 1, design foundation
 

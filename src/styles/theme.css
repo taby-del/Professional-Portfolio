@@ -22,6 +22,8 @@
   --color-ring: var(--ring);
   --color-error: var(--error);
   --color-success: var(--success);
+  --color-primary-pressed: var(--primary-pressed);
+  --color-press-overlay: var(--press-overlay);
 
   /* Fonts: variables set by next/font in src/lib/fonts.ts */
   --font-sans:

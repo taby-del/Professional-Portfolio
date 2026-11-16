@@ -4,6 +4,7 @@
  */
 @import "tailwindcss";
 @import "../styles/tokens.css";
+@import "../styles/states.css";
 @import "../styles/theme.css";
 @import "../styles/scales.css";
 @import "../styles/base.css";
