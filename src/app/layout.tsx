@@ -1,4 +1,7 @@
 import type { Metadata, Viewport } from "next";
+import { Footer } from "@/components/layout/Footer";
+import { Header } from "@/components/layout/Header";
+import { SkipLink } from "@/components/layout/SkipLink";
 import { MotionProvider } from "@/components/providers/MotionProvider";
 import { ThemeScript } from "@/components/theme/ThemeScript";
 import { BRAND_COLORS } from "@/constants/theme";
@@ -7,7 +10,7 @@ import { fontVariables } from "@/lib/fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: SITE.title,
+  title: { default: SITE.title, template: `%s · ${SITE.name}` },
   description: SITE.description,
 };
 
@@ -23,16 +26,19 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     // suppressHydrationWarning: ThemeScript may set data-theme before
     // React hydrates; React must keep that attribute (Next.js guide).
-    <html
-      lang="en"
-      className={`${fontVariables} h-full antialiased`}
-      suppressHydrationWarning
-    >
+    <html lang="en" className={`${fontVariables} h-full antialiased`} suppressHydrationWarning>
       <head>
         <ThemeScript />
       </head>
       <body className="flex min-h-full flex-col">
-        <MotionProvider>{children}</MotionProvider>
+        <MotionProvider>
+          <SkipLink />
+          <Header />
+          <main id="main" tabIndex={-1} className="flex flex-1 flex-col outline-none">
+            {children}
+          </main>
+          <Footer />
+        </MotionProvider>
       </body>
     </html>
   );

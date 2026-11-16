@@ -5,7 +5,7 @@
  */
 export const BUTTON_BASE = [
   "relative isolate inline-flex h-control min-w-touch shrink-0 items-center justify-center gap-2",
-  "overflow-hidden rounded-control px-6 text-body-sm font-semibold whitespace-nowrap select-none",
+  "overflow-hidden rounded-control px-6 text-label font-semibold whitespace-nowrap select-none",
   "transition-[background-color,border-color,color,box-shadow,scale] duration-150 ease-out",
   "active:duration-100 motion-safe:active:scale-[0.98]",
   "disabled:pointer-events-none disabled:opacity-(--disabled-opacity)",

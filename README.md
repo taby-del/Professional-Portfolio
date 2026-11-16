@@ -2,7 +2,7 @@
 
 Personal professional portfolio showcasing frontend development, UI/UX design and AI-assisted software development.
 
-> **Status:** Step 2 of 9 complete (design foundation, buttons). The pages are built step by step from the approved Figma design. The full specification is in [docs/design-handoff.md](docs/design-handoff.md).
+> **Status:** Step 3 of 9 complete (design foundation, buttons, header, mobile menu, footer and the six routes). The pages are built step by step from the approved Figma design. The full specification is in [docs/design-handoff.md](docs/design-handoff.md).
 
 ## Contents
 
@@ -124,7 +124,10 @@ Every package added to the project is listed here with its purpose and the reaso
 professional-portfolio/
 ├── public/                    Static files served as-is from the site root
 │   ├── images/
-│   │   ├── profile/           Profile photos
+│   │   ├── brand/
+│   │   │   └── taby-jeff-logo.webp   The "TJ / Taby Jeff" logo (header, footer)
+│   │   ├── profile/
+│   │   │   └── taby-takoundjou-jeff-obrile.jpg  Owner portrait (About, 4:5 crop)
 │   │   └── projects/          Project screenshots
 │   │       ├── yiino/
 │   │       ├── innofrit/
@@ -139,13 +142,28 @@ professional-portfolio/
 │   └── check-file-length.mjs  50-line rule checker
 └── src/
     ├── app/                   App Router: routes, root layout, global stylesheet
-    │   ├── layout.tsx         Root HTML shell: fonts, theme script, Motion provider
-    │   ├── page.tsx           Home route (placeholder until Step 4)
+    │   ├── layout.tsx         Root shell: fonts, theme script, skip link, header, footer
+    │   ├── page.tsx           Home (/), placeholder until Step 4
+    │   ├── about/ skills/ projects/ experience/ contact/
+    │   │   └── page.tsx       One route each, placeholders until Steps 5-9
     │   ├── globals.css        Stylesheet entry point (imports src/styles)
     │   └── favicon.ico
     ├── components/
-    │   ├── layout/            Page shells: header, footer, containers
-    │   ├── navigation/        Navbar, menus, links
+    │   ├── layout/
+    │   │   ├── Header.tsx          Site header (full and compact)
+    │   │   ├── Footer.tsx          Site footer
+    │   │   ├── SkipLink.tsx        "Skip to content" for keyboard users
+    │   │   └── PagePlaceholder.tsx Temporary page content
+    │   ├── navigation/
+    │   │   ├── BrandLink.tsx       Logo + name, links to Home
+    │   │   ├── NavLinks.tsx        Desktop links with active state
+    │   │   ├── LanguageIndicator.tsx  "EN" control (becomes EN/FR later)
+    │   │   ├── MenuButton.tsx      Opens the mobile menu
+    │   │   ├── MobileMenu.tsx      Native <dialog> menu
+    │   │   ├── MobileMenuPanel.tsx Menu content
+    │   │   ├── MobileNavList.tsx   Menu links with staggered entrance
+    │   │   ├── FooterNav.tsx       Footer links
+    │   │   └── SocialLinks.tsx     LinkedIn / GitHub / Email
     │   ├── providers/
     │   │   └── MotionProvider.tsx  Lightweight Motion setup + reduced-motion support
     │   ├── sections/          Page sections (hero, about, projects, ...)
@@ -159,16 +177,18 @@ professional-portfolio/
     │       │   ├── ButtonBase.tsx    Picks <button>, <Link> or <a>
     │       │   ├── PrimaryButton.tsx
     │       │   └── SecondaryButton.tsx
-    │       └── DownloadCvButton.tsx  The one shared "Download CV" action
+    │       ├── DownloadCvButton.tsx  The one shared "Download CV" action
+    │       └── icon-control.ts       Shared 44 px square control style
     ├── config/
     │   └── security/
     │       ├── csp.ts         Content-Security-Policy rules and builder
     │       └── headers.ts     HTTP security headers
     ├── constants/
     │   ├── assets.ts          CV file name and URL
-    │   ├── site.ts            Site title and description
+    │   ├── site.ts            Name, title, logo, social links (pending)
     │   └── theme.ts           Brand colours for TypeScript
-    ├── data/                  Typed static content (projects, experience, skills)
+    ├── data/
+    │   └── navigation.ts      The six destinations + active-page helper
     ├── hooks/
     │   └── useTheme.ts        Reads and changes the site theme
     ├── lib/
@@ -177,7 +197,8 @@ professional-portfolio/
     │   ├── fonts.ts           Self-hosted Inter and JetBrains Mono
     │   ├── motion/
     │   │   ├── tokens.ts      Animation durations, easings, stagger, distances
-    │   │   └── variants.ts    Reusable animation presets (fadeUp, blurReveal, ...)
+    │   │   ├── variants.ts    Reusable animation presets (fadeUp, blurReveal, ...)
+    │   │   └── menu-variants.ts  Quick menu-item entrance
     │   └── theme/
     │       ├── constants.ts   Theme names, storage key, timings
     │       ├── script.ts      The inline pre-paint script
@@ -190,7 +211,9 @@ professional-portfolio/
     │   ├── scales.css         Typography, spacing, radii, breakpoints
     │   ├── base.css           Base element styles and page gutters
     │   ├── utilities.css      Custom utilities (brand gradient)
-    │   └── theme-transition.css  180 ms colour cross-fade on theme switch
+    │   ├── theme-transition.css  180 ms colour cross-fade on theme switch
+    │   ├── mobile-menu.css       Menu dialog look and 150 ms entrance
+    │   └── mobile-menu-responsive.css  Tablet panel, scroll lock, reduced motion
     └── types/                 Shared TypeScript types
 ```
 
@@ -246,6 +269,8 @@ Each colour is defined once, with the CSS `light-dark()` function, in `src/style
 
 | Style       | Size / line height | Class          |
 | ----------- | ------------------ | -------------- |
+| Caption     | 12 / 18 px         | `text-caption` (footer links, EN, meta) |
+| Label       | 13 / 20 px         | `text-label` (buttons, desktop navigation) |
 | Body small  | 14 / 22 px         | `text-body-sm` |
 | Body        | 16 / 26 px         | `text-body`    |
 | Body large  | 18 / 28 px         | `text-body-lg` |
@@ -270,7 +295,7 @@ Each colour is defined once, with the CSS `light-dark()` function, in `src/style
 
 ### Components: buttons
 
-Matched to the Figma "Interaction states" sheet. Both buttons are 48 px tall, with 8 px corners, a 14 px semibold Inter label and 24 px side padding.
+Matched to the Figma "Interaction states" sheet and the page headers. Both buttons are 48 px tall, with 8 px corners, a 13 px semibold Inter label and 24 px side padding (Download CV = 134 px wide, as in the design).
 
 | State | `PrimaryButton` | `SecondaryButton` |
 | --- | --- | --- |
@@ -292,6 +317,29 @@ Matched to the Figma "Interaction states" sheet. Both buttons are 48 px tall, wi
 - **Press-in:** the 98% press-in is skipped for visitors who prefer reduced motion.
 
 **`DownloadCvButton`** is the one "Download CV" action used everywhere. It links directly to `/documents/Taby_Takoundjou_Jeff_Obrile_Frontend_Developer_CV.pdf` with the `download` attribute, same-origin and with the real file name. At build time it checks that the PDF exists in `public/documents/`. Until it does, the button renders **disabled** ("CV coming soon"), so the site never publishes a broken download, as the handoff requires.
+
+### Components: header, mobile menu, footer
+
+Measured from the Figma header, footer and mobile-menu exports.
+
+| Width | Header behaviour |
+| --- | --- |
+| 1280 px and up | Logo and name, six centred links (13 px, 22 px apart), EN, theme toggle, Download CV. 88 px bar with a 1 px border. |
+| 768–1279 px | Compact: links move into the menu. Name, EN, theme, Download CV and the menu button stay. |
+| Under 768 px | Logo only (the name doesn't fit), EN, theme and the menu button. Download CV moves into the menu. |
+
+- **Active page:** brand blue and semibold, announced with `aria-current="page"`. Hover is a readable blue label on a subtle tint (150 ms).
+- **Mobile menu:** built on the native `<dialog>` element, so it gets what the handoff asks for with no extra code:
+  - Focus stays inside while it's open.
+  - **Escape** closes it, and focus returns to the menu button.
+  - The page behind can't be clicked or scrolled.
+  - It also closes on link tap, backdrop tap or page change.
+  - It slides in over 150 ms and its links cascade in. Under reduced motion it opens instantly.
+  - Layout: a full-width sheet on phones, a 390 px panel from 768 px up.
+- **EN control:** a language indicator, not a toggle yet. The handoff says the control alone must not imply a page is translated, and French copy hasn't been supplied. It becomes the EN/FR switch once French content exists.
+- **Footer:** logo and name, small links, the copyright line in JetBrains Mono, and LinkedIn / GitHub / Email. A social label turns into a link only once its real URL is set in `src/constants/site.ts`, so there are never dead links.
+- **Skip link:** the first Tab press on any page shows "Skip to content", which jumps past the header.
+- **Homepage header:** Home's approved design shows an older header variant (no EN, moon icon, underline under the active link). The site uses **one shared header on every route**, the refined version, so navigation stays consistent between pages.
 
 ---
 
@@ -383,8 +431,8 @@ The site is built one step at a time. Each step is checked against the design, t
 | --- | --- | --- |
 | 1 | Design foundation: tokens, fonts, theme system, animation system | ✅ Done |
 | 2 | Buttons: `PrimaryButton`, `SecondaryButton`, all states | ✅ Done |
-| 3 | Header, compact header, mobile menu, footer, six routes | Next |
-| 4 | Home (approved design, preserved as-is) | Planned |
+| 3 | Header, compact header, mobile menu, footer, six routes | ✅ Done |
+| 4 | Home (approved design, preserved as-is) | Next |
 | 5 | About | Planned |
 | 6 | Skills | Planned |
 | 7 | Projects | Planned |
@@ -403,6 +451,25 @@ The site is built one step at a time. Each step is checked against the design, t
 ## Development log
 
 Every step taken on the project, newest first. **Add an entry for every change.**
+
+### 2026-11-16: Step 3, header, mobile menu, footer and routes
+
+- Added the owner's logo (`public/images/brand/taby-jeff-logo.webp`) and portrait (`public/images/profile/taby-takoundjou-jeff-obrile.jpg`, for the About page). Next.js serves both resized and compressed.
+- **Measured the Home and refined-page headers and the footer from the Figma exports.** The comparison showed buttons use a **13 px** label (not 14), so the buttons were corrected and `text-label` (13 px) and `text-caption` (12 px) were added to the type scale.
+- **Built the shared navigation:**
+  - `NAV_ITEMS` data and the header (full, compact and phone layouts).
+  - Desktop `NavLinks` with an active state.
+  - `LanguageIndicator` (EN) and a contrast-icon `ThemeToggle`.
+  - The mobile menu on the native `<dialog>`: focus trap, Escape, focus return, scroll lock, a 150 ms entrance and staggered links.
+  - The footer, with social links that stay plain text until real URLs are supplied.
+- Added the five routes `/about`, `/skills`, `/projects`, `/experience` and `/contact` with page titles (placeholders until their steps), plus a "Skip to content" link on every page.
+- Shared the 44 px square control style (`icon-control.ts`), split the mobile-menu CSS into two files, and moved the menu animation into `menu-variants.ts`, so every file stays under 50 lines.
+- **Verified in the browser:**
+  - At 1440, header geometry matches the design: 88 px bar, 96 px gutters, 44 px logo and controls, nav centred with 22 px gaps, 134 px Download CV.
+  - At 1280, 768 and 390: the right layout for each width, no horizontal overflow, and the menu button on the 24 px gutter at 390.
+  - The menu opens as a modal, closes with a real Escape key press with focus returned, and navigates and closes on link tap.
+  - All six routes return 200; unknown URLs return 404.
+  - The security headers block framing even from the same site, as intended.
 
 ### 2026-11-16: Step 2, buttons
 

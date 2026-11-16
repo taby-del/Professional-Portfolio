@@ -4,6 +4,12 @@
  * --spacing-gutter -> px-gutter, --radius-control -> rounded-control).
  */
 @theme {
+  /* UI labels: buttons and nav (13 px), footer and meta text (12 px) */
+  --text-label: 0.8125rem;
+  --text-label--line-height: 1.25rem;
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1.125rem;
+
   /* Readable paragraph styles: 14/22, 16/26, 18/28 */
   --text-body-sm: 0.875rem;
   --text-body-sm--line-height: 1.375rem;

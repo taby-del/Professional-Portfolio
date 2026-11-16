@@ -1,0 +1,22 @@
+/* Mobile menu: wider screens, scroll lock and reduced motion. */
+
+/* 768 px+: a 390 px panel at the top right, matching the Figma frame. */
+@media (width >= 48rem) {
+  .mobile-menu {
+    inset: 0.75rem var(--page-gutter) auto auto;
+    width: 24.375rem;
+    border-radius: var(--radius-panel);
+  }
+}
+
+/* No page scrolling behind the open menu. */
+html:has(.mobile-menu[open]) {
+  overflow: hidden;
+}
+
+/* Reduced motion: open and close instantly. */
+@media (prefers-reduced-motion: reduce) {
+  .mobile-menu {
+    transition: none;
+  }
+}
