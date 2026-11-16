@@ -1,5 +1,6 @@
 /*
- * Type scale, measured from the Figma exports (README > Typography).
+ * Type scale, part 1: UI and body text, measured from the Figma exports
+ * (README > Typography). Headings: typography-headings.css.
  * Each variable becomes a Tailwind utility: --text-body -> text-body.
  */
 @theme {
@@ -24,26 +25,4 @@
   --text-body--line-height: 1.625rem;
   --text-body-lg: 1.125rem;
   --text-body-lg--line-height: 1.75rem;
-
-  /* Card titles (17 px): "Understand the workflow", "Education" */
-  --text-card-title: 1.0625rem;
-  --text-card-title--line-height: 1.5rem;
-  --text-card-title--letter-spacing: -0.02em;
-  --text-title: 1.25rem; /* 20 px: menu heading */
-  --text-title--line-height: 1.75rem;
-
-  /* Section heading (32 px at 1440): "My Approach" */
-  --text-heading: clamp(1.625rem, 1rem + 1.2vw, 2rem);
-  --text-heading--line-height: 1.2;
-  --text-heading--letter-spacing: -0.015em;
-
-  /* Page title (44 px at 1440): "About Me", "Building in collaboration." */
-  --text-page-title: clamp(2.25rem, 1.5rem + 1.5vw, 2.75rem);
-  --text-page-title--line-height: 1.1;
-  --text-page-title--letter-spacing: -0.035em;
-
-  /* Home headline: 72 px at 1440, 40 px on phones; tight tracking */
-  --text-hero: clamp(2.5rem, 5vw, 4.5rem);
-  --text-hero--line-height: 1.04;
-  --text-hero--letter-spacing: -0.045em;
 }

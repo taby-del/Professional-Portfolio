@@ -2,7 +2,7 @@
 
 Personal professional portfolio showcasing frontend development, UI/UX design and AI-assisted software development.
 
-> **Status:** Step 5 of 9 complete (design foundation, buttons, navigation, footer, routes, Home and About). The pages are built step by step from the approved Figma design. The full specification is in [docs/design-handoff.md](docs/design-handoff.md).
+> **Status:** Step 6 of 9 complete (design foundation, buttons, navigation, footer, routes, Home, About and Skills). The pages are built step by step from the approved Figma design. The full specification is in [docs/design-handoff.md](docs/design-handoff.md).
 
 ## Contents
 
@@ -17,8 +17,9 @@ Personal professional portfolio showcasing frontend development, UI/UX design an
 9. [Animation system](#animation-system)
 10. [Security](#security)
 11. [Git workflow](#git-workflow)
-12. [Build roadmap](#build-roadmap)
-13. [Development log](#development-log)
+12. [Troubleshooting](#troubleshooting)
+13. [Build roadmap](#build-roadmap)
+14. [Development log](#development-log)
 
 ---
 
@@ -38,6 +39,7 @@ Open [http://localhost:3000](http://localhost:3000).
 | Command               | What it does                                                    |
 | --------------------- | --------------------------------------------------------------- |
 | `npm run dev`         | Starts the development server with hot reload                   |
+| `npm run dev:clean`   | Clears the dev cache (`.next/dev`), then starts the dev server (see [Troubleshooting](#troubleshooting)) |
 | `npm run build`       | Creates an optimized production build                           |
 | `npm run start`       | Serves the production build (run `build` first)                 |
 | `npm run lint`        | Runs ESLint (code quality, accessibility, 50-line rule)         |
@@ -84,6 +86,11 @@ Every package added to the project is listed here with its purpose and the reaso
 - **No CSS-in-JS or UI component library:** Tailwind and our own components in `src/components/ui` keep the bundle small and the design faithful to Figma.
 - **No class-merging helpers (`clsx`, `tailwind-merge`) yet:** they will be added, and documented here, only when a component actually needs them.
 - **No theme library (`next-themes`):** the theme system is about 100 lines of our own code across four small files (`src/lib/theme`). It does exactly what the handoff requires, and it is one less dependency to keep up to date.
+- **No icon-library package for brand logos (`simple-icons`):**
+  - The Skills page needs 9 brand logos (React, Next.js, Vite, HTML5, Node.js, MongoDB, PostgreSQL, Git, GitHub). Their SVG paths were copied once from [Simple Icons](https://simpleicons.org) v16.38.0 into `src/components/icons/brand-paths.ts`. Simple Icons is CC0 (public domain), so copying is allowed without attribution.
+  - The package itself is 16 MB and would add nothing else.
+  - The classic CSS3 shield (no longer in Simple Icons) and the multi-colour Figma mark are drawn as small inline SVG components.
+  - To add a logo, copy its path from simpleicons.org into `brand-paths.ts`.
 - **No second animation library (GSAP, AOS, Lottie):** one library keeps the animation style consistent and the upgrade path simple. CSS handles simple hover and colour transitions.
 
 ### Tools used to build and maintain the project
@@ -139,7 +146,8 @@ professional-portfolio/
 ├── docs/
 │   └── design-handoff.md      Designer's specification (source of truth)
 ├── scripts/
-│   └── check-file-length.mjs  50-line rule checker
+│   ├── check-file-length.mjs  50-line rule checker
+│   └── clean-dev-cache.mjs    Clears .next/dev (npm run dev:clean)
 └── src/
     ├── app/                   App Router: routes, root layout, global stylesheet
     │   ├── layout.tsx         Root shell: fonts, theme script, skip link, header, footer
@@ -150,6 +158,9 @@ professional-portfolio/
     │   └── favicon.ico
     ├── components/
     │   ├── icons/
+    │   │   ├── BrandLogo.tsx       Draws a brand logo (brand colour or brand blue)
+    │   │   ├── brand-paths.ts      9 logo paths from Simple Icons (CC0)
+    │   │   ├── Css3Logo.tsx        Classic CSS3 shield (inline SVG)
     │   │   ├── FigmaLogo.tsx       Figma brand mark (inline SVG)
     │   │   └── SkillGlyph.tsx      Draws a skill icon: Lucide, brand or monogram
     │   ├── layout/
@@ -182,6 +193,9 @@ professional-portfolio/
     │   │   │   ├── FocusGrid.tsx       "Professional Focus" tiles
     │   │   │   ├── ApproachSection.tsx "My Approach" three steps
     │   │   │   └── AboutDetails.tsx    Education + Professional Interests
+    │   │   ├── skills/
+    │   │   │   ├── SkillsPage.tsx      Intro, 2 × 2 category panels, note
+    │   │   │   └── SkillPanel.tsx      One category: header + skill tiles
     │   │   └── home/
     │   │       ├── HomeHero.tsx       Layout: intro + card, then tech strip
     │   │       ├── HeroIntro.tsx      Status, name, roles, headline, intro, actions
@@ -216,6 +230,7 @@ professional-portfolio/
     ├── data/
     │   ├── about.ts           About page copy (intro, focus, approach, details)
     │   ├── home.ts            Home page copy (hero, craft card, toolkit tags)
+    │   ├── skills.ts          All 24 skills in four categories, Skills copy
     │   └── navigation.ts      The six destinations + active-page helper
     ├── hooks/
     │   └── useTheme.ts        Reads and changes the site theme
@@ -236,7 +251,8 @@ professional-portfolio/
     │   ├── tokens.css         Colour tokens (light and dark)
     │   ├── states.css         Pressed, glow and disabled tokens
     │   ├── theme.css          Maps tokens and fonts to Tailwind utilities
-    │   ├── typography.css     Type scale (eyebrow 10 px … hero 72 px)
+    │   ├── typography.css     Type scale: UI and body text (10–18 px)
+    │   ├── typography-headings.css  Type scale: titles and headings (17–72 px)
     │   ├── scales.css         Spacing, radii, breakpoints
     │   ├── base.css           Base element styles and page gutters
     │   ├── utilities.css      Custom utilities (brand gradient)
@@ -244,7 +260,7 @@ professional-portfolio/
     │   ├── mobile-menu.css       Menu dialog look and 150 ms entrance
     │   └── mobile-menu-responsive.css  Tablet panel, scroll lock, reduced motion
     └── types/
-        └── skill.ts           Skill icon and tile density types
+        └── skill.ts           Skill, category, icon and tile density types
 ```
 
 Empty folders contain a `.gitkeep` file so Git keeps them until real files are added.
@@ -308,6 +324,7 @@ Each colour is defined once, with the CSS `light-dark()` function, in `src/style
 | Body large  | 18 / 28 px         | `text-body-lg` |
 | Card title  | 17 / 24 px, −0.02em | `text-card-title` ("Education", "Understand the workflow") |
 | Title       | 20 / 28 px         | `text-title` (menu heading) |
+| Subheading  | 22 to 26 px, fluid, −0.02em | `text-subheading` (Skills category titles) |
 | Heading     | 26 to 32 px, fluid, −0.015em | `text-heading` ("My Approach") |
 | Page title  | 36 to 44 px, fluid, −0.035em | `text-page-title` ("About Me") |
 | Hero        | 40 to 72 px, fluid, semibold, −0.045em tracking, 1.04 leading | `text-hero` (Home headline) |
@@ -410,11 +427,31 @@ Built from the approved About 1440 export, measured and checked in the browser.
 | 768 / 390 | Everything stacks, portrait first (handoff). The portrait stays 4:5, up to 424 px wide. |
 
 - **Portrait framing:** the photo is drawn at 140% of the frame width and offset, so the crop matches the design exactly (head near the top, cut at the stool seat). Plain `object-cover` showed the whole figure, which is too loose. Percentages keep the same framing at every size.
-- **Skill tiles:** `SkillTile` is the shared tile from the handoff (`comfortable`, `compact` and `row` densities). The Skills page will reuse it. Icons are Lucide icons, inline brand logos (Figma) or short blue monograms ("API", "{ }").
+- **Skill tiles:** `SkillTile` is the shared tile from the handoff, and the Skills page reuses it. About uses the `compact` density. Icons are Lucide icons, inline brand logos (Figma) or short blue monograms ("API", "{ }").
 - **Education:** worded exactly as the handoff allows. No degree or completion status is claimed.
 - **CV caption:** shows "PDF · Professional CV" once the PDF is added, and "… coming soon" until then. The design's "supplied during development" was a note for the developer, not copy for visitors.
 - **Measured against the design:** at 1440, every block lands within 0–3 px (portrait 168–698, role card 714–832, approach cards 994–1157).
 - **Approach card padding:** 22 px instead of 24 px. With a 15 px Windows scrollbar, the third card's text would otherwise wrap onto a third line, 1 px short.
+
+### Pages: Skills
+
+Built from the approved Skills 1440 export, measured and checked in the browser.
+
+| Part | Details |
+| --- | --- |
+| Intro | "03 / SKILLS", "A connected set of capabilities." (44 px), 18 px description |
+| Category panels | 2 × 2 grid of 612 px panels, 24 px apart. Each has an eyebrow, a 26 px title, a 14 px description and 80 px skill tiles (two columns, 12 px across, 20 px down). Row 2 panels keep their own heights, as designed. |
+| Skills | All **24** labels from the handoff: Frontend (7), UI/UX (7), Backend (5, presented as complementary, as the handoff requires), Tools & Workflow (5) |
+| Icons | HTML5, CSS3 and Figma in brand colours. React, Next.js, Vite, Node.js, MongoDB, PostgreSQL, Git and GitHub in brand blue. JS, TS, UX, API and { } as readable-blue monograms. |
+| Note | "Technical judgment comes first." on a soft surface |
+| 768 px and up | Panels stack below 1280 px; comfortable tiles in two columns |
+| 390 | Handoff rule: technology skills as **paired compact tiles** (64 px), the 7 long workflow labels as **full-width rows**, no horizontal overflow |
+
+**SkillTile densities** (handoff names in brackets): `comfortable` (Comfortable, 80 px), `compact` (About's focus tiles) and `adaptive` (Skills: Compact Tile / Compact Row on phones, Comfortable from 768 px).
+
+**Measured against the design at 1440:** panels 334–894 and 934–1416 (design 332–894 and 936–1418), the note at 1456–1592 (design 1459–1592), and the page end at 1704 (design ~1705).
+
+**Vite logo:** shows Vite's current official logo. The design used the older "V" mark.
 
 ---
 
@@ -511,6 +548,16 @@ The `X-Powered-By` header is also removed, so the site doesn't advertise its fra
 
 ---
 
+## Troubleshooting
+
+| Symptom | Cause | Fix |
+| --- | --- | --- |
+| Styles missing or out of date in `npm run dev`, but correct in `npm run build` | Turbopack's persistent dev cache (`.next/dev`) kept output from a failed compile | Stop the dev server and run `npm run dev:clean` |
+| "Module not found" for a package right after adding it | The page compiled before `npm install` finished | Wait for the install to finish (check `package.json`), then save any file or restart `npm run dev` |
+| Animations look minimal (fades only, no movement) | The operating system's "reduce motion" setting is on, and the site respects it (handoff requirement). Motion logs "You have Reduced Motion enabled on your device" in the console. | Expected behaviour. To preview full motion on Windows, go to Settings → Accessibility → Visual effects → **Animation effects: On**. |
+
+---
+
 ## Build roadmap
 
 The site is built one step at a time. Each step is checked against the design, then committed on `Jeff` and pushed to `Dev`.
@@ -522,8 +569,8 @@ The site is built one step at a time. Each step is checked against the design, t
 | 3 | Header, compact header, mobile menu, footer, six routes | ✅ Done |
 | 4 | Home (approved design, preserved as-is) | ✅ Done |
 | 5 | About | ✅ Done |
-| 6 | Skills | Next |
-| 7 | Projects | Planned |
+| 6 | Skills | ✅ Done |
+| 7 | Projects | Next |
 | 8 | Experience | Planned |
 | 9 | Contact (form and email delivery) | Planned |
 
@@ -539,6 +586,27 @@ The site is built one step at a time. Each step is checked against the design, t
 ## Development log
 
 Every step taken on the project, newest first. **Add an entry for every change.**
+
+### 2026-11-16: Step 6, Skills page
+
+- **Measured the Skills export:**
+  - The intro, the 2 × 2 panel grid, panel padding, the 26 px titles, the 276 × 80 px tiles with 48 px icon boxes, and the callout.
+  - Icon colours: brand colours for HTML5, CSS3 and Figma; brand blue for the rest; `#1078BC` monograms.
+- **Type scale:** split into `typography.css` (UI and body) and `typography-headings.css` (titles), so each file stays under 50 lines. Added `text-subheading` (26 px).
+- **Data:** added all 24 skills in `src/data/skills.ts`. Long workflow labels are marked `wide`, so they take a full row on phones.
+- **Components:**
+  - `SkillTile` gained the `adaptive` density (compact on phones, comfortable from 768 px), with the monogram colour per density.
+  - `SkillGlyph` now draws brand logos through the new `BrandLogo`, `brand-paths.ts` and `Css3Logo`.
+  - Built `SkillsPage` and `SkillPanel`.
+- **Incident, fixed:**
+  - The brand-logo code was written while `npm install simple-icons` was still downloading on the slow network. The dev site briefly failed to compile ("Module not found: simple-icons"), which also broke About.
+  - **Fix:** the 9 needed logo paths were copied into the project (CC0), the unfinished install was stopped and its partial folder removed. `package.json` was never changed, so the project has no new dependency.
+  - The dev server's cache then still served stale CSS (missing heading sizes). It was cleared, and `npm run dev:clean` plus a Troubleshooting section were added so this is a one-command fix in future.
+- **Verified in the browser:**
+  - Light at 1440 (blocks within 0–7 px of the design) and the phone layout at 390 (paired tiles, 7 full-width rows, no overflow).
+  - All 24 tiles and 11 logos render.
+  - About re-checked after the fix.
+  - No dev server errors; all checks pass and the production build succeeds.
 
 ### 2026-11-16: Step 5, About page
 
