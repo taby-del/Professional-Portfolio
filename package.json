@@ -14,7 +14,8 @@
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit",
     "check:lines": "node scripts/check-file-length.mjs",
-    "check": "npm run lint && npm run typecheck && npm run check:lines"
+    "check": "npm run lint && npm run typecheck && npm run check:lines",
+    "icons": "node scripts/generate-icons.mjs"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.3.0",

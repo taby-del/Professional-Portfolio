@@ -1,10 +1,11 @@
 /*
  * Colour tokens, sampled from the approved Figma exports.
  * Each value is light-dark(<light>, <dark>). The active `color-scheme`
- * picks one: the OS setting by default, or <html data-theme="light|dark">.
+ * picks one: light by default (owner request), or <html data-theme="dark">
+ * once the visitor chooses dark with the theme toggle.
  */
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
 
   /* Brand */
   --brand-primary: #08a3fb;

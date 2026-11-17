@@ -15,12 +15,9 @@ export const metadata: Metadata = {
   description: SITE.description,
 };
 
-/** Browser UI colour (mobile address bar) follows the OS theme. */
+/** Browser UI colour (mobile address bar) matches the default light theme. */
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: BRAND_COLORS.backgroundLight },
-    { media: "(prefers-color-scheme: dark)", color: BRAND_COLORS.backgroundDark },
-  ],
+  themeColor: BRAND_COLORS.backgroundLight,
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

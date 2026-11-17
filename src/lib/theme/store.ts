@@ -1,14 +1,10 @@
 import { isTheme, THEME_STORAGE_KEY, type Theme } from "./constants";
-import {
-  applyTheme,
-  getResolvedTheme,
-  persistTheme,
-  systemThemeQuery,
-} from "./dom";
+import { applyTheme, getResolvedTheme, persistTheme } from "./dom";
 
 /**
  * External store for useSyncExternalStore. One global theme for all routes,
- * synced across tabs (storage event) and with OS changes (media query).
+ * synced across tabs (storage event). Light is the default; the OS
+ * setting is deliberately not followed (owner request).
  */
 const listeners = new Set<() => void>();
 const notify = () => listeners.forEach((listener) => listener());
@@ -23,13 +19,11 @@ export function subscribe(listener: () => void): () => void {
   listeners.add(listener);
   if (listeners.size === 1) {
     window.addEventListener("storage", onStorage);
-    systemThemeQuery().addEventListener("change", notify);
   }
   return () => {
     listeners.delete(listener);
     if (listeners.size === 0) {
       window.removeEventListener("storage", onStorage);
-      systemThemeQuery().removeEventListener("change", notify);
     }
   };
 }

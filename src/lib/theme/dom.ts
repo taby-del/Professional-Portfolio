@@ -7,17 +7,14 @@ import {
   type Theme,
 } from "./constants";
 
-const DARK_QUERY = "(prefers-color-scheme: dark)";
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 let transitionTimer: ReturnType<typeof setTimeout> | undefined;
 
-export const systemThemeQuery = () => window.matchMedia(DARK_QUERY);
-
-/** The theme currently shown: the forced attribute, else the OS setting. */
+/** The theme currently shown: the visitor's choice, else light (default). */
 export function getResolvedTheme(): Theme {
   const forced = document.documentElement.getAttribute(THEME_ATTRIBUTE);
   if (isTheme(forced)) return forced;
-  return systemThemeQuery().matches ? "dark" : "light";
+  return "light";
 }
 
 /** Sets the theme on <html>, cross-fading colours unless motion is reduced. */
