@@ -146,6 +146,8 @@ professional-portfolio/
 │   └── dependabot.yml         Weekly dependency update pull requests
 ├── docs/
 │   └── design-handoff.md      Designer's specification (source of truth)
+├── supabase/
+│   └── schema.sql             contact_messages table + Row Level Security
 ├── scripts/
 │   ├── check-file-length.mjs  50-line rule checker
 │   └── clean-dev-cache.mjs    Clears .next/dev (npm run dev:clean)
@@ -276,7 +278,9 @@ professional-portfolio/
     │   │   ├── schema.ts      Fields + validation (browser and server)
     │   │   ├── form-dom.ts    Read values, focus first invalid field
     │   │   ├── rate-limit.ts  3 messages / 10 min per visitor
-    │   │   └── send-email.ts  Resend API via fetch (server-only)
+    │   │   ├── deliver.ts     Email notification + database storage
+    │   │   ├── send-email.ts  Owner notification via Resend (server-only)
+    │   │   └── store-message.ts  Saves to Supabase via REST (server-only)
     │   ├── fonts.ts           Self-hosted Inter and JetBrains Mono
     │   ├── motion/
     │   │   ├── tokens.ts      Animation durations, easings, stagger, distances
@@ -295,6 +299,7 @@ professional-portfolio/
     │   ├── typography-headings.css  Type scale: titles and headings (17–72 px)
     │   ├── scales.css         Spacing, radii, breakpoints
     │   ├── base.css           Base element styles and page gutters
+    │   ├── interaction.css    Hand cursor on controls, visible focus ring
     │   ├── utilities.css      Custom utilities (brand gradient)
     │   ├── theme-transition.css  180 ms colour cross-fade on theme switch
     │   ├── mobile-menu.css       Menu dialog look and 150 ms entrance
@@ -559,13 +564,43 @@ Built from the approved Contact 1440 export, measured and checked in the browser
 | Keep text on failure and offer a retry | The fields are untouched and the status asks to try again |
 | Prevent duplicate sends | Ignored while a send is in progress |
 | Lightweight spam protection | Hidden honeypot field, a 3-second minimum fill time, and a per-visitor limit of 3 messages per 10 minutes |
-| Keys on the server | `RESEND_API_KEY` is read only in `send-email.ts` (`server-only`) |
+| Keys on the server | `SUPABASE_SECRET_KEY` and `RESEND_API_KEY` are read only in `server-only` modules |
 
-**Setting up email delivery (Resend):**
-1. Create a free account at [resend.com](https://resend.com) and create an API key.
-2. Copy `.env.example` to `.env.local` and set `RESEND_API_KEY`. Set it in the hosting platform's environment variables too.
-3. Optional: verify your own domain in Resend and set `CONTACT_FROM_EMAIL`. Resend's test sender only delivers to the Resend account's own email.
-4. Restart the server. Until a key is set, the form says "Online sending isn't set up yet" and shows the email address, so a message is never silently lost.
+### Contact backend: storage + email notification
+
+Every submission is **saved in a database** and the owner gets an **email notification**. There's no separate server to run: the backend is a Next.js Server Action deployed with the site.
+
+```
+Visitor submits form
+  → Server Action (src/app/contact/actions.ts)
+      1. honeypot + minimum fill time      (spam)
+      2. validate all fields again         (never trust the browser)
+      3. rate limit: 3 messages / 10 min   (abuse)
+      4. deliverContactMessage (src/lib/contact/deliver.ts)
+           a. email owner via Resend:  "New collaboration request from <name>"
+           b. save row in Supabase:    contact_messages (notified = true/false)
+  → "Message sent" only if (a) or (b) succeeded; otherwise "try again", text kept
+```
+
+- **No message is lost silently.** If the email fails, the message is still in the database with `notified = false`. If the database fails, the owner still has the email.
+- **Privacy:** the table has **Row Level Security switched on, with no public rules**. The public key can neither read nor write it; only the server's secret key can insert. Visitors can't see each other's messages.
+- **No extra packages:** Supabase and Resend are called with plain `fetch` through their REST APIs.
+- **Tested** against a local mock of Supabase's API:
+  - The exact request was verified: `POST /rest/v1/contact_messages`, the `apikey` header, and a body matching the table.
+  - A success shows "Message sent" and clears the form.
+  - A server error shows "try again" and keeps the text.
+
+**Setup (one time, about 10 minutes):**
+1. **Supabase:** create a free account and project at [supabase.com](https://supabase.com).
+   - Go to **SQL Editor → New query**, paste [`supabase/schema.sql`](supabase/schema.sql) and click **Run**.
+   - Copy the **Project URL** (Project Settings → Data API) and the **secret key** (Project Settings → API Keys).
+2. **Resend:** create a free account at [resend.com](https://resend.com) and an **API key**.
+   - Resend's test sender delivers only to the email the Resend account was created with, so sign up with `tabytakoundjou@gmail.com`, or verify a domain and set `CONTACT_FROM_EMAIL`.
+3. **Local:** copy `.env.example` to `.env.local`, fill in `SUPABASE_URL`, `SUPABASE_SECRET_KEY` and `RESEND_API_KEY`, then restart `npm run dev`.
+4. **Vercel:** add the same variables under **Project → Settings → Environment Variables**, then redeploy.
+5. **Reading messages:** open Supabase **Table Editor → contact_messages**. The newest messages come first, and each one shows whether you were notified by email.
+
+Until these are set, the form says "Online sending isn't set up yet" and shows the email address, so a message is never silently lost.
 
 ---
 
@@ -707,7 +742,8 @@ The site is built one step at a time. Each step is checked against the design, t
 | --- | --- | --- |
 | CV PDF | `public/documents/Taby_Takoundjou_Jeff_Obrile_Frontend_Developer_CV.pdf` | Download CV buttons are disabled ("CV coming soon") |
 | LinkedIn **profile** URL (`linkedin.com/in/…`) | `SOCIAL_LINKS` in `src/constants/site.ts` | Shown as plain text. `linkedin.com/feed/` was supplied, but it opens each visitor's own feed. |
-| Resend API key | `.env.local` / hosting environment (see Contact) | The form explains that online sending isn't set up and shows the email address |
+| Supabase project + Resend API key | `.env.local` / Vercel environment (see [Contact backend](#contact-backend-storage--email-notification)) | The form explains that online sending isn't set up and shows the email address |
+| Hosting | Vercel (recommended for Next.js): import the GitHub repo, production branch `main` | Runs locally only |
 | Real project screenshots (with permission) | `public/images/projects/<project>/` | Labelled illustrative covers |
 | French copy | A French content dictionary | The EN indicator; no fake translation |
 
@@ -716,6 +752,16 @@ The site is built one step at a time. Each step is checked against the design, t
 ## Development log
 
 Every step taken on the project, newest first. **Add an entry for every change.**
+
+### 2026-11-17: Contact backend, storage in Supabase + email notification
+
+- The owner chose **Supabase** for storing contact submissions.
+- Added `supabase/schema.sql`: a `contact_messages` table with length checks and a newest-first index. **Row Level Security is on with no public policies**, so only the server can write.
+- Added `store-message.ts`, which saves to Supabase over REST with `fetch`, server-only, supporting both new `sb_secret_` and legacy `service_role` keys.
+- Added `deliver.ts`, which emails the owner and then saves the row with `notified`. "Message sent" is reported only if at least one succeeded.
+- The notification email now has the subject "New collaboration request from <name>" and lists the name, email, subject, time and message. Replying answers the visitor.
+- Added the Supabase variables to `.env.example`. Moved the cursor and focus rules from `base.css` into a new `interaction.css`, so both files stay under 50 lines.
+- **Verified** against a local mock Supabase API with the production build: the correct request and body were received, a success shows "Message sent" and clears the form, and a 500 error shows "try again" with the text kept.
 
 ### 2026-11-17: Owner refinements, button gradient and cursor
 

@@ -3,15 +3,15 @@
 import { headers } from "next/headers";
 import { isRateLimited } from "@/lib/contact/rate-limit";
 import { CONTACT_FIELDS, type ContactResult, type ContactValues, validateContact } from "@/lib/contact/schema";
-import { sendContactEmail } from "@/lib/contact/send-email";
+import { deliverContactMessage } from "@/lib/contact/deliver";
 
 /** Bots fill hidden fields and submit instantly; people do neither. */
 const MIN_FILL_MS = 3000;
 
 /**
  * Server action behind the contact form. Order: spam checks, server-side
- * validation, rate limit, then delivery. A success result is returned
- * only after the email service confirms (handoff > Contact form).
+ * validation, rate limit, then delivery (email notification + Supabase
+ * storage). Success is returned only after a service confirms.
  */
 export async function sendContactMessage(formData: FormData): Promise<ContactResult> {
   const honeypot = formData.get("company");
@@ -32,7 +32,7 @@ export async function sendContactMessage(formData: FormData): Promise<ContactRes
   const visitor = (await headers()).get("x-forwarded-for")?.split(",")[0]?.trim() ?? "local";
   if (isRateLimited(visitor)) return { ok: false, reason: "rate-limited" };
 
-  const outcome = await sendContactEmail(values);
+  const outcome = await deliverContactMessage(values);
   if (outcome === "sent") return { ok: true };
   return { ok: false, reason: outcome };
 }
