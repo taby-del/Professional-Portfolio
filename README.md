@@ -742,7 +742,7 @@ The site is built one step at a time. Each step is checked against the design, t
 | --- | --- | --- |
 | CV PDF | `public/documents/Taby_Takoundjou_Jeff_Obrile_Frontend_Developer_CV.pdf` | Download CV buttons are disabled ("CV coming soon") |
 | LinkedIn **profile** URL (`linkedin.com/in/…`) | `SOCIAL_LINKS` in `src/constants/site.ts` | Shown as plain text. `linkedin.com/feed/` was supplied, but it opens each visitor's own feed. |
-| Supabase project + Resend API key | `.env.local` / Vercel environment (see [Contact backend](#contact-backend-storage--email-notification)) | The form explains that online sending isn't set up and shows the email address |
+| Supabase + Resend values **in Vercel** | Vercel → Project → Settings → Environment Variables (same names as `.env.local`) | Done locally (2026-11-17); the live site needs them too |
 | Hosting | Vercel (recommended for Next.js): import the GitHub repo, production branch `main` | Runs locally only |
 | Real project screenshots (with permission) | `public/images/projects/<project>/` | Labelled illustrative covers |
 | French copy | A French content dictionary | The EN indicator; no fake translation |
@@ -752,6 +752,12 @@ The site is built one step at a time. Each step is checked against the design, t
 ## Development log
 
 Every step taken on the project, newest first. **Add an entry for every change.**
+
+### 2026-11-17: Real Supabase and Resend connected
+
+- The owner created a Supabase project (ran `supabase/schema.sql`) and a Resend account, then put the keys in `.env.local` (git-ignored; values never shown in chat or logs).
+- `store-message.ts` now builds the endpoint from the URL **origin** only, so a pasted `https://<project>.supabase.co/rest/v1/` URL also works.
+- **Verified end to end** on the dev server: a real form submission showed "Message sent", the row appeared in `contact_messages` with `notified = true`, and Resend accepted the email.
 
 ### 2026-11-17: Contact backend, storage in Supabase + email notification
 

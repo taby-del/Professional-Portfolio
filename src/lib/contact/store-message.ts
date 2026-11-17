@@ -28,7 +28,9 @@ export async function storeContactMessage(
   if (key.startsWith("eyJ")) headers.Authorization = `Bearer ${key}`;
 
   try {
-    const response = await fetch(`${url.replace(/\/$/, "")}/rest/v1/contact_messages`, {
+    // Only the origin is used, so a pasted ".../rest/v1/" URL still works.
+    const endpoint = `${new URL(url).origin}/rest/v1/contact_messages`;
+    const response = await fetch(endpoint, {
       method: "POST",
       headers,
       body: JSON.stringify({
