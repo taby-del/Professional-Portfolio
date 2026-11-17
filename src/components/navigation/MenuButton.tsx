@@ -19,7 +19,7 @@ export function MenuButton({ expanded, controls, onClick }: MenuButtonProps) {
       aria-controls={controls}
       className={ICON_CONTROL}
     >
-      <Menu aria-hidden="true" className="size-5" strokeWidth={1.75} />
+      <Menu aria-hidden="false" className="size-5" strokeWidth={1.75} />
     </button>
   );
 }

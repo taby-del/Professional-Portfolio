@@ -12,7 +12,7 @@ export const BUTTON_BASE = [
   "aria-disabled:pointer-events-none aria-disabled:opacity-(--disabled-opacity)",
 ].join(" ");
 
-/** 135° brand gradient, white label; pressed adds a light/dark overlay. */
+/** Vertical brand gradient (light blue top, deep blue bottom), white label; pressed adds a light/dark overlay. */
 const PRIMARY = [
   "bg-brand-gradient text-on-primary",
   "hover:shadow-[0_10px_24px_-12px_var(--primary-glow)]",

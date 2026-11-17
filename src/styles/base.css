@@ -25,6 +25,21 @@
     overflow-x: clip;
   }
 
+  /* Every clickable control shows the hand cursor (Tailwind v4 resets
+     buttons to the default arrow). Disabled controls keep "not-allowed". */
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  select,
+  summary,
+  label[for] {
+    cursor: pointer;
+  }
+
+  button:disabled,
+  [aria-disabled="true"] {
+    cursor: not-allowed;
+  }
+
   :focus-visible {
     outline: 2px solid var(--ring);
     outline-offset: 2px;

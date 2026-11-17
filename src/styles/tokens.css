@@ -9,7 +9,8 @@
   /* Brand */
   --brand-primary: #08a3fb;
   --brand-primary-deep: #1078bc;
-  --brand-gradient: linear-gradient(135deg, #08a3fb 0%, #1078bc 100%);
+  /* Owner request (2026-11-17): light blue on top, deep blue at bottom */
+  --brand-gradient: linear-gradient(180deg, #08a3fb 0%, #1078bc 100%);
 
   /* Surfaces */
   --background: light-dark(#ffffff, #080d16);

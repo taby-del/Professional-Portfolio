@@ -333,7 +333,7 @@ The design system lives in `src/styles`. Every value comes from the approved Fig
 | ----------------------- | -------------------------------------------------------- | ---------------------------------- |
 | Primary blue            | `#08A3FB`                                                | `bg-primary`, `text-primary`       |
 | Primary deep blue       | `#1078BC`                                                | `bg-primary-deep`                  |
-| Primary button gradient | `linear-gradient(135deg, #08A3FB 0%, #1078BC 100%)`      | `bg-brand-gradient`                |
+| Primary button gradient | `linear-gradient(180deg, #08A3FB 0%, #1078BC 100%)`: light blue top, deep blue bottom (owner request, replaces the design's 135°) | `bg-brand-gradient` |
 | Text on primary         | `#FFFFFF` in both themes                                 | `text-on-primary`                  |
 
 ### Semantic colours (switch automatically with the theme)
@@ -394,7 +394,8 @@ Matched to the Figma "Interaction states" sheet and the page headers. Both butto
 
 | State | `PrimaryButton` | `SecondaryButton` |
 | --- | --- | --- |
-| Default | 135° `#08A3FB` → `#1078BC` gradient, white label | Transparent, 1 px `#08A3FB` outline and label |
+| Default | Vertical gradient, `#08A3FB` top → `#1078BC` bottom, white label | Transparent, 1 px `#08A3FB` outline and label |
+| Cursor | Hand cursor on every clickable control (`base.css`); "not-allowed" when disabled | Same |
 | Hover (150 ms) | Soft brand glow underneath | Blue tint fill (`#EAF4FF` / `#142B45`) |
 | Pressed (100 ms) | Gradient lightens (light theme) or darkens (dark theme); slight 98% press-in | Outline and label shift to `#2CB0FB` / `#098EDB`, tint fill; slight press-in |
 | Disabled | 45% opacity, not clickable | 45% opacity with tint fill, not clickable |
@@ -715,6 +716,12 @@ The site is built one step at a time. Each step is checked against the design, t
 ## Development log
 
 Every step taken on the project, newest first. **Add an entry for every change.**
+
+### 2026-11-17: Owner refinements, button gradient and cursor
+
+- **Gradient:** primary buttons now use a vertical gradient, light blue `#08A3FB` at the top to deep blue `#1078BC` at the bottom (owner request; previously 135°). Changed once in `--brand-gradient` (`tokens.css`) and `BRAND_GRADIENT`, so every primary button updates.
+- **Cursor:** every clickable control now shows the hand cursor (`base.css`). Tailwind v4 resets buttons to the default arrow. Disabled controls show "not-allowed".
+- **Verified in the browser:** the computed gradient is `#08A3FB → #1078BC` top to bottom, and buttons use `cursor: pointer`.
 
 ### 2026-11-17: Step 9, Contact page and form (all steps complete)
 

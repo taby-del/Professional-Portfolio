@@ -10,4 +10,5 @@ export const BRAND_COLORS = {
   backgroundDark: "#080D16",
 } as const;
 
-export const BRAND_GRADIENT = `linear-gradient(135deg, ${BRAND_COLORS.primary} 0%, ${BRAND_COLORS.primaryDeep} 100%)`;
+/** Top (#08A3FB) to bottom (#1078BC), as used on primary buttons. */
+export const BRAND_GRADIENT = `linear-gradient(180deg, ${BRAND_COLORS.primary} 0%, ${BRAND_COLORS.primaryDeep} 100%)`;
