@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
-import { PagePlaceholder } from "@/components/layout/PagePlaceholder";
+import { ContactPage } from "@/components/sections/contact/ContactPage";
 
-export const metadata: Metadata = { title: "Contact" };
+export const metadata: Metadata = {
+  title: "Contact",
+  description:
+    "Get in touch about technology projects, professional opportunities and collaborations in development and design.",
+};
 
-export default function ContactPage() {
-  return <PagePlaceholder title="Contact" step={9} />;
+export default function Contact() {
+  return <ContactPage />;
 }

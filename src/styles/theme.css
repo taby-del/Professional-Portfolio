@@ -24,6 +24,7 @@
   --color-success: var(--success);
   --color-primary-pressed: var(--primary-pressed);
   --color-press-overlay: var(--press-overlay);
+  --color-field-border: var(--field-border);
 
   /* Fonts: variables set by next/font in src/lib/fonts.ts */
   --font-sans:

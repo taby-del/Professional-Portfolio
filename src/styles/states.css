@@ -17,4 +17,7 @@
   --primary-glow: rgb(8 163 251 / 0.45);
 
   --disabled-opacity: 0.45;
+
+  /* Form field outline (interaction sheet: light grey; lighter on dark) */
+  --field-border: light-dark(#e5eaf1, rgb(229 234 241 / 0.45));
 }
