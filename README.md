@@ -2,7 +2,7 @@
 
 Personal professional portfolio showcasing frontend development, UI/UX design and AI-assisted software development.
 
-> **Status:** Step 7 of 9 complete (design foundation, buttons, navigation, footer, routes, Home, About, Skills and Projects). The pages are built step by step from the approved Figma design. The full specification is in [docs/design-handoff.md](docs/design-handoff.md).
+> **Status:** Step 8 of 9 complete (design foundation, buttons, navigation, footer, routes, Home, About, Skills, Projects and Experience). The pages are built step by step from the approved Figma design. The full specification is in [docs/design-handoff.md](docs/design-handoff.md).
 
 ## Contents
 
@@ -202,6 +202,11 @@ professional-portfolio/
     │   │   │   ├── FocusGrid.tsx       "Professional Focus" tiles
     │   │   │   ├── ApproachSection.tsx "My Approach" three steps
     │   │   │   └── AboutDetails.tsx    Education + Professional Interests
+    │   │   ├── experience/
+    │   │   │   ├── ExperiencePage.tsx  Intro, meta column + role card, education
+    │   │   │   ├── RoleCard.tsx        Technical Developer role card
+    │   │   │   ├── RoleArea.tsx        One focus area (Engineering, Design, Quality)
+    │   │   │   └── EducationBanner.tsx IUC, Computer Science and Engineering
     │   │   ├── projects/
     │   │   │   ├── ProjectsPage.tsx    Intro, notice, three projects
     │   │   │   ├── ProjectArticle.tsx  Cover + info + details for one project
@@ -247,6 +252,7 @@ professional-portfolio/
     │   └── theme.ts           Brand colours for TypeScript
     ├── data/
     │   ├── about.ts           About page copy (intro, focus, approach, details)
+    │   ├── experience.ts      Role, focus areas, toolkit, education
     │   ├── home.ts            Home page copy (hero, craft card, toolkit tags)
     │   ├── projects/          One file per project + intro/labels (index.ts)
     │   ├── skills.ts          All 24 skills in four categories, Skills copy
@@ -496,6 +502,22 @@ Built from the approved Projects export (supplied at 806 px wide and scaled to 1
 
 **Replacing a placeholder with a real screenshot:** put the approved image in `public/images/projects/<project>/`. Then replace that project's composition in `src/components/sections/projects/covers/` with a `next/image` using `object-fit: contain` (handoff), and remove the placeholder labels for that cover.
 
+### Pages: Experience
+
+Built from the approved Experience 1440 export, measured and checked in the browser.
+
+| Part | Details |
+| --- | --- |
+| Intro | "05 / EXPERIENCE", "Building in collaboration.", description |
+| Meta column (256 px) | "PROFESSIONAL EXPERIENCE", "Since September 2025", "Yiino Corp Cameroon" |
+| Role card | "Technical Developer" (32 px), "Yiino Corporation / Yiino Corp Cameroon" in blue, summary. Then three white focus areas (01 Engineering, 02 Experience design, 03 Quality & collaboration) and the relevant toolkit. |
+| Education banner | Tinted: Computer Science and Engineering, Institut Universitaire de la Côte (IUC), Cameroon |
+| Below 1280 | The meta column sits above the card; everything stacks, with no overflow at 390 |
+
+- **Facts:** exactly as the handoff states. One employer since September 2025, no extra employers or awards, and education without a degree or completion claim.
+- **Measured against the design at 1440:** role card 342–1282 (design 339–1285), focus areas within 2–5 px, education banner 1330–1495 (design 1334–1497).
+- **Animation:** the intro and meta column rise in on load. The role card's title, company, summary and the three focus areas cascade in as they scroll into view, then the education banner follows.
+
 ---
 
 ## Theme system
@@ -620,8 +642,8 @@ The site is built one step at a time. Each step is checked against the design, t
 | 5 | About | ✅ Done |
 | 6 | Skills | ✅ Done |
 | 7 | Projects | ✅ Done |
-| 8 | Experience | Next |
-| 9 | Contact (form and email delivery) | Planned |
+| 8 | Experience | ✅ Done |
+| 9 | Contact (form and email delivery) | Next |
 
 **Waiting on the owner:**
 - The CV PDF.
@@ -635,6 +657,13 @@ The site is built one step at a time. Each step is checked against the design, t
 ## Development log
 
 Every step taken on the project, newest first. **Add an entry for every change.**
+
+### 2026-11-17: Step 8, Experience page
+
+- Measured the Experience export: header, the 256 px meta column, the role card (32 px padding), the three focus sub-cards (24 px apart), the toolkit line and the education banner.
+- Added `src/data/experience.ts` (role, focus areas, toolkit, education) and built `ExperiencePage`, `RoleCard`, `RoleArea` and `EducationBanner`.
+- Tuned the inner spacing after measuring in the browser, so the card and focus areas land within 2–5 px of the design.
+- **Verified:** light at 1440, no overflow at 390, all checks pass.
 
 ### 2026-11-17: Step 7, Projects page
 

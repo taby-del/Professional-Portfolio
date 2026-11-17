@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
-import { PagePlaceholder } from "@/components/layout/PagePlaceholder";
+import { ExperiencePage } from "@/components/sections/experience/ExperiencePage";
 
-export const metadata: Metadata = { title: "Experience" };
+export const metadata: Metadata = {
+  title: "Experience",
+  description:
+    "Technical Developer at Yiino Corporation / Yiino Corp Cameroon since September 2025: frontend, UI/UX and product collaboration.",
+};
 
-export default function ExperiencePage() {
-  return <PagePlaceholder title="Experience" step={8} />;
+export default function Experience() {
+  return <ExperiencePage />;
 }
