@@ -15,13 +15,17 @@ export const LOGO = {
   height: 1254,
 } as const;
 
+/** Public contact email (from the approved Contact design). */
+export const EMAIL = "tabytakoundjou@gmail.com";
+
 /**
- * Contact and social links. Still awaiting the owner's real values
- * (handoff: "Email, LinkedIn and GitHub URL placeholders"). While a value
- * is null, the label is shown as plain text, never as a broken link.
+ * Contact and social links. While a value is null, the label is shown as
+ * plain text, never as a wrong or broken link.
+ * LinkedIn: awaiting the profile URL (linkedin.com/in/…); the supplied
+ * linkedin.com/feed/ opens each visitor's own feed, not this profile.
  */
 export const SOCIAL_LINKS: readonly { label: string; href: string | null }[] = [
   { label: "LinkedIn", href: null },
-  { label: "GitHub", href: null },
-  { label: "Email", href: null },
+  { label: "GitHub", href: "https://github.com/taby-del" },
+  { label: "Email", href: `mailto:${EMAIL}` },
 ];

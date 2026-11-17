@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
-import { PagePlaceholder } from "@/components/layout/PagePlaceholder";
+import { ProjectsPage } from "@/components/sections/projects/ProjectsPage";
 
-export const metadata: Metadata = { title: "Projects" };
+export const metadata: Metadata = {
+  title: "Projects",
+  description:
+    "Product design and frontend development across mobility, logistics and corporate operations: Yiino, Yiino Freight / InnoFrit and Yiino for Business.",
+};
 
-export default function ProjectsPage() {
-  return <PagePlaceholder title="Projects" step={7} />;
+export default function Projects() {
+  return <ProjectsPage />;
 }

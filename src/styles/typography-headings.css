@@ -22,6 +22,11 @@
   --text-heading--line-height: 1.2;
   --text-heading--letter-spacing: -0.015em;
 
+  /* Project title (36 px at 1440): "YIINO FREIGHT / INNOFRIT" */
+  --text-project-title: clamp(1.75rem, 1rem + 1.6vw, 2.25rem);
+  --text-project-title--line-height: 1.15;
+  --text-project-title--letter-spacing: -0.02em;
+
   /* Page title (44 px at 1440): "About Me", "Building in collaboration." */
   --text-page-title: clamp(2.25rem, 1.5rem + 1.5vw, 2.75rem);
   --text-page-title--line-height: 1.1;

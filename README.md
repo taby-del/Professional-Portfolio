@@ -2,7 +2,7 @@
 
 Personal professional portfolio showcasing frontend development, UI/UX design and AI-assisted software development.
 
-> **Status:** Step 6 of 9 complete (design foundation, buttons, navigation, footer, routes, Home, About and Skills). The pages are built step by step from the approved Figma design. The full specification is in [docs/design-handoff.md](docs/design-handoff.md).
+> **Status:** Step 7 of 9 complete (design foundation, buttons, navigation, footer, routes, Home, About, Skills and Projects). The pages are built step by step from the approved Figma design. The full specification is in [docs/design-handoff.md](docs/design-handoff.md).
 
 ## Contents
 
@@ -178,6 +178,15 @@ professional-portfolio/
     │   │   ├── MobileNavList.tsx   Menu links with staggered entrance
     │   │   ├── FooterNav.tsx       Footer links
     │   │   └── SocialLinks.tsx     LinkedIn / GitHub / Email
+    │   ├── mockups/           Illustrative UI artwork for project covers
+    │   │   ├── ScaleToFit.tsx      Draws artwork at design size, scales to fit
+    │   │   ├── Placed.tsx          Positions a device; reveal + scroll parallax
+    │   │   ├── PhoneFrame.tsx      Phone outline with app label
+    │   │   ├── BrowserFrame.tsx    Browser window, "Illustrative preview"
+    │   │   ├── MockParts.tsx       Small button, list row, chip
+    │   │   ├── MockSidebar.tsx     Dashboard navigation
+    │   │   ├── MockStats.tsx       Three stat cards
+    │   │   └── MockTable.tsx       Data table with generic cues
     │   ├── motion/
     │   │   ├── RevealGroup.tsx     Reveals its children in sequence (on load or on scroll)
     │   │   ├── RevealItem.tsx      A child that rises/fades in on the group's cue
@@ -193,6 +202,15 @@ professional-portfolio/
     │   │   │   ├── FocusGrid.tsx       "Professional Focus" tiles
     │   │   │   ├── ApproachSection.tsx "My Approach" three steps
     │   │   │   └── AboutDetails.tsx    Education + Professional Interests
+    │   │   ├── projects/
+    │   │   │   ├── ProjectsPage.tsx    Intro, notice, three projects
+    │   │   │   ├── ProjectArticle.tsx  Cover + info + details for one project
+    │   │   │   ├── ProjectCover.tsx    Labelled illustrative cover (hover lift)
+    │   │   │   ├── CoverArt.tsx        Wide (768+) or compact (phone) artwork
+    │   │   │   ├── ProjectInfo.tsx     Title, description, tagline, toolkit
+    │   │   │   ├── ProjectDetails.tsx  "View Project" disclosure (220 ms)
+    │   │   │   ├── DetailsColumns.tsx  Product areas + My contributions
+    │   │   │   └── covers/             Per-project compositions + registry
     │   │   ├── skills/
     │   │   │   ├── SkillsPage.tsx      Intro, 2 × 2 category panels, note
     │   │   │   └── SkillPanel.tsx      One category: header + skill tiles
@@ -230,6 +248,7 @@ professional-portfolio/
     ├── data/
     │   ├── about.ts           About page copy (intro, focus, approach, details)
     │   ├── home.ts            Home page copy (hero, craft card, toolkit tags)
+    │   ├── projects/          One file per project + intro/labels (index.ts)
     │   ├── skills.ts          All 24 skills in four categories, Skills copy
     │   └── navigation.ts      The six destinations + active-page helper
     ├── hooks/
@@ -260,6 +279,7 @@ professional-portfolio/
     │   ├── mobile-menu.css       Menu dialog look and 150 ms entrance
     │   └── mobile-menu-responsive.css  Tablet panel, scroll lock, reduced motion
     └── types/
+        ├── project.ts         Project and cover types
         └── skill.ts           Skill, category, icon and tile density types
 ```
 
@@ -325,7 +345,8 @@ Each colour is defined once, with the CSS `light-dark()` function, in `src/style
 | Card title  | 17 / 24 px, −0.02em | `text-card-title` ("Education", "Understand the workflow") |
 | Title       | 20 / 28 px         | `text-title` (menu heading) |
 | Subheading  | 22 to 26 px, fluid, −0.02em | `text-subheading` (Skills category titles) |
-| Heading     | 26 to 32 px, fluid, −0.015em | `text-heading` ("My Approach") |
+| Heading     | 26 to 32 px, fluid, −0.015em | `text-heading` ("My Approach", cover headlines) |
+| Project title | 28 to 36 px, fluid, −0.02em | `text-project-title` ("YIINO FREIGHT / INNOFRIT") |
 | Page title  | 36 to 44 px, fluid, −0.035em | `text-page-title` ("About Me") |
 | Hero        | 40 to 72 px, fluid, semibold, −0.045em tracking, 1.04 leading | `text-hero` (Home headline) |
 
@@ -453,6 +474,28 @@ Built from the approved Skills 1440 export, measured and checked in the browser.
 
 **Vite logo:** shows Vite's current official logo. The design used the older "V" mark.
 
+### Pages: Projects
+
+Built from the approved Projects export (supplied at 806 px wide and scaled to 1440 for measuring), and checked in the browser.
+
+| Part | Details |
+| --- | --- |
+| Intro | "04 / SELECTED PROJECTS", "Interfaces for real-world complexity.", description, and the placeholder notice |
+| Three projects | **Yiino**, **Yiino Freight / InnoFrit** and **Yiino for Business**, 64 px apart. Each has a cover, live info and a "View Project" disclosure. |
+| Cover | Labelled "Illustrative UI placeholder · Not a real product screenshot" (handoff). Blue tint (Yiino, Business) or grey surface (Freight). Project tag, headline, three chips, the device composition, and the "Replace named preview regions…" caption. |
+| Compositions | Built in HTML/CSS, not images, so they're sharp and follow light/dark mode. Yiino: rider phone, partner phone and operations panel. Freight: shipment dashboard and tracking phone. Business: mobility dashboard and voucher panel. Generic cues ("Shipment ID", "Employee name") as the handoff specifies. |
+| Info | Eyebrow, 36 px title and description on the left; tagline, "Relevant toolkit" pills and "Project-specific stack to confirm." on the right |
+| Details | "View Project +/–" opens **Product areas** and **My contributions** in place |
+| 768 and up | The wide composition, scaled to fit the cover (handoff: artwork may scale; facts stay live text) |
+| 390 | A compact composition: one device per project (rider phone, tracking phone, voucher panel) |
+
+**Interactions (handoff contract):**
+- **Cover hover** (mouse only): a 2 px lift and restrained shadow, 180 ms, never a zoom. There's no lift under reduced motion.
+- **View Project:** a real `<button>` with `aria-expanded` and `aria-controls`. It expands over 220 ms with a CSS grid-row transition (no layout measuring) and keeps focus on the button. The collapsed content is `inert`, so keyboard and screen-reader users skip it. It's instant under reduced motion.
+- **Covers start collapsed**, as the handoff allows ("production may start collapsed"). Every product area and contribution is one click away and is always in the page's HTML.
+
+**Replacing a placeholder with a real screenshot:** put the approved image in `public/images/projects/<project>/`. Then replace that project's composition in `src/components/sections/projects/covers/` with a `next/image` using `object-fit: contain` (handoff), and remove the placeholder labels for that cover.
+
 ---
 
 ## Theme system
@@ -496,6 +539,12 @@ The design calls for professional, refined animation, and for animations that wo
 The status dot pulses gently, and the contact arrow nudges on hover. All of this uses transform, opacity and blur only, and movement is removed under reduced motion.
 
 **About choreography:** the portrait fades in while the intro lines rise in turn, then the focus tiles cascade, then Download CV appears. My Approach and the detail cards reveal as they scroll into view.
+
+**Projects choreography:**
+- Each project's cover, info and details rise in as it scrolls into view, then the cover's devices arrive one after another.
+- While scrolling, the layered devices (partner phone, operations panel, tracking phone, voucher panel) drift gently at different speeds, up to 28 px. This scroll parallax gives the covers depth.
+- Under reduced motion the parallax is off entirely; the handoff says "do not translate covers".
+- The parallax starts at 0 on the server and in the browser, so the HTML always matches (this fixed a hydration warning found during testing).
 
 **No-JavaScript safety net:** animated content starts hidden, and JavaScript reveals it. `NoScriptReveal` adds a `<noscript>` style that shows everything immediately if JavaScript is disabled or fails to load, so a page is never blank.
 
@@ -570,8 +619,8 @@ The site is built one step at a time. Each step is checked against the design, t
 | 4 | Home (approved design, preserved as-is) | ✅ Done |
 | 5 | About | ✅ Done |
 | 6 | Skills | ✅ Done |
-| 7 | Projects | Next |
-| 8 | Experience | Planned |
+| 7 | Projects | ✅ Done |
+| 8 | Experience | Next |
 | 9 | Contact (form and email delivery) | Planned |
 
 **Waiting on the owner:**
@@ -586,6 +635,21 @@ The site is built one step at a time. Each step is checked against the design, t
 ## Development log
 
 Every step taken on the project, newest first. **Add an entry for every change.**
+
+### 2026-11-17: Step 7, Projects page
+
+- **Social links:** GitHub (`github.com/taby-del`) and email (`tabytakoundjou@gmail.com`, from the Contact design) are now live links in the footer.
+  - LinkedIn stays plain text for now. The supplied `linkedin.com/feed/` opens each visitor's own feed, not this profile, so it needs the `linkedin.com/in/…` profile URL.
+- **Design export:** converted the WebP Projects export with sharp, which Next.js already includes, and measured it, scaling 806 → 1440 px.
+- **Data:** added the `Project` type and one data file per project (`src/data/projects/`), with all product areas and contributions from the design.
+- **Cover artwork:** built the reusable mockup kit (`ScaleToFit`, `Placed`, `PhoneFrame`, `BrowserFrame`, `MockParts`, `MockSidebar`, `MockStats`, `MockTable`) and the three cover compositions, each with a compact phone variant.
+- **Page sections:** built `ProjectsPage`, `ProjectArticle`, `ProjectCover` (hover lift), `CoverArt`, `ProjectInfo`, `ProjectDetails` (accessible 220 ms disclosure) and `DetailsColumns`. Added `text-project-title` (36 px).
+- **Fixed a hydration mismatch:** the scroll-parallax layer rendered a different offset on the server than in a browser with reduced motion. Parallax now starts at 0 everywhere.
+- **Verified in the browser:**
+  - At 1440: geometry matches the design (columns 256 + 865 px / 789 + 412 px). Spacing was tuned so the notice and covers line up, and there's no overflow.
+  - The disclosure (aria-expanded, inert when closed, 0.22 s, focus kept).
+  - Dark mode at 390, with the compact rider-phone cover.
+  - No console errors on a fresh load; all checks pass.
 
 ### 2026-11-16: Step 6, Skills page
 
