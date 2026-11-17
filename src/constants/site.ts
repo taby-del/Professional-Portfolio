@@ -21,11 +21,9 @@ export const EMAIL = "tabytakoundjou@gmail.com";
 /**
  * Contact and social links. While a value is null, the label is shown as
  * plain text, never as a wrong or broken link.
- * LinkedIn: awaiting the profile URL (linkedin.com/in/…); the supplied
- * linkedin.com/feed/ opens each visitor's own feed, not this profile.
  */
 export const SOCIAL_LINKS: readonly { label: string; href: string | null }[] = [
-  { label: "LinkedIn", href: null },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/jeff-obrile-06a1a9450/" },
   { label: "GitHub", href: "https://github.com/taby-del" },
   { label: "Email", href: `mailto:${EMAIL}` },
 ];

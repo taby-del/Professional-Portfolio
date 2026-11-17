@@ -546,7 +546,7 @@ Built from the approved Contact 1440 export, measured and checked in the browser
 | Part | Details |
 | --- | --- |
 | Left column | "06 / CONTACT", "Let's Build Something Together.", the invitation, three channel cards, the closing lines |
-| Channel cards | **Email** (`tabytakoundjou@gmail.com`, opens the mail app) and **GitHub** (`github.com/taby-del`, new tab). **LinkedIn** shows "Profile link coming soon" until the profile URL is set. |
+| Channel cards | **Email** (`tabytakoundjou@gmail.com`, opens the mail app), **LinkedIn** (`linkedin.com/in/jeff-obrile-06a1a9450`, new tab) and **GitHub** (`github.com/taby-del`, new tab). |
 | Form card | "Start a conversation.": Full Name, Email Address, Subject, Message, Send Message, and the status line |
 | Below 1280 | The columns stack (handoff: stacked Contact at 768 and 390), with no overflow at 390 |
 
@@ -741,7 +741,6 @@ The site is built one step at a time. Each step is checked against the design, t
 | Item | Where it goes | Until then |
 | --- | --- | --- |
 | CV PDF | `public/documents/Taby_Takoundjou_Jeff_Obrile_Frontend_Developer_CV.pdf` | Download CV buttons are disabled ("CV coming soon") |
-| LinkedIn **profile** URL (`linkedin.com/in/…`) | `SOCIAL_LINKS` in `src/constants/site.ts` | Shown as plain text. `linkedin.com/feed/` was supplied, but it opens each visitor's own feed. |
 | Supabase + Resend values **in Vercel** | Vercel → Project → Settings → Environment Variables (same names as `.env.local`) | Done locally (2026-11-17); the live site needs them too |
 | Hosting | Vercel (recommended for Next.js): import the GitHub repo, production branch `main` | Runs locally only |
 | Real project screenshots (with permission) | `public/images/projects/<project>/` | Labelled illustrative covers |
@@ -752,6 +751,12 @@ The site is built one step at a time. Each step is checked against the design, t
 ## Development log
 
 Every step taken on the project, newest first. **Add an entry for every change.**
+
+### 2026-11-17: LinkedIn profile linked
+
+- The owner supplied the profile URL `https://www.linkedin.com/in/jeff-obrile-06a1a9450/`, now set in `SOCIAL_LINKS` (`src/constants/site.ts`).
+- The footer and Contact card now link to it (new tab, `rel="noopener noreferrer"`). The card shows `linkedin.com/in/jeff-obrile-06a1a9450`.
+- **Verified** in the browser on desktop and at 375 px: the correct href, no clipping and no horizontal scroll.
 
 ### 2026-11-17: Real Supabase and Resend connected
 

@@ -13,11 +13,10 @@ export const CONTACT_INTRO = {
 const linkFor = (label: string) => SOCIAL_LINKS.find((link) => link.label === label)?.href ?? null;
 
 /**
- * Contact cards. A card links out only when its real URL exists; the
- * LinkedIn card shows a note until the profile URL is supplied.
+ * Contact cards. A card links out only when its real URL exists.
  */
 export const CONTACT_CHANNELS = [
   { label: "Email", value: EMAIL, href: linkFor("Email") },
-  { label: "LinkedIn", value: "Profile link coming soon", href: linkFor("LinkedIn") },
+  { label: "LinkedIn", value: "linkedin.com/in/jeff-obrile-06a1a9450", href: linkFor("LinkedIn") },
   { label: "GitHub", value: "github.com/taby-del", href: linkFor("GitHub") },
 ] as const;
