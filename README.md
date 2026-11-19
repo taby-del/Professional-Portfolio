@@ -476,7 +476,8 @@ Built from the approved About 1440 export, measured and checked in the browser.
 | Intro column | "02 / ABOUT", "About Me" (44 px), lead paragraph (18/28), body paragraph (16/26), "Professional Focus" with four compact skill tiles, Download CV + caption |
 | My Approach | 32 px heading, summary, three numbered cards (Understand → Structure → Build) |
 | Details | Education and Professional Interests cards |
-| 768 / 390 | Everything stacks, portrait first (handoff). The portrait stays 4:5, up to 424 px wide. |
+| 768 to 1279 | The About Me text sits beside the portrait (owner request) in a 2:3 split with a 32 px gap. Professional Focus tiles go two per row once each tile has 240 px, otherwise one per row. |
+| 390 | Everything stacks, portrait first (handoff). The portrait stays 4:5, up to 424 px wide. |
 
 - **Portrait framing:** the photo is drawn at 140% of the frame width and offset, so the crop matches the design exactly (head near the top, cut at the stool seat). Plain `object-cover` showed the whole figure, which is too loose. Percentages keep the same framing at every size.
 - **Skill tiles:** `SkillTile` is the shared tile from the handoff, and the Skills page reuses it. About uses the `compact` density. Icons are Lucide icons, inline brand logos (Figma) or short blue monograms ("API", "{ }").
@@ -767,6 +768,14 @@ The site is built one step at a time. Each step is checked against the design, t
 ## Development log
 
 Every step taken on the project, newest first. **Add an entry for every change.**
+
+### 2026-11-19: About Me beside the portrait at every width from 768
+
+- **Owner request:** the About Me content must sit beside the profile image, as in the design. Before, the two columns only appeared from 1280 px, so on most laptops (for example 1366 px screens at 125% scaling, about 1093 px wide) the text dropped under the photo.
+- **Change:** `AboutPage` uses a 2:3 grid from 768 px and keeps the fixed 424 px portrait column from 1280 px. Phones (below 768) still stack, portrait first.
+- **Focus tiles:** `FocusGrid` now picks one or two columns from the space available (each tile at least 240 px), so the tiles never get squeezed in the narrower column.
+- **Contact check:** a test submission on localhost was stored in Supabase with `notified = true`, so the local backend works. Resend's test sender often lands in Gmail spam.
+- **Verified** in the browser at 390, 768, 1024 and 1440 px: side by side from 768, matches the 1440 design, no sideways overflow.
 
 ### 2026-11-17: Logo favicon and light theme by default
 
