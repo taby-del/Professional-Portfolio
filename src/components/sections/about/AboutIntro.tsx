@@ -1,18 +1,15 @@
 import { RevealGroup } from "@/components/motion/RevealGroup";
 import { RevealItem } from "@/components/motion/RevealItem";
-import { DownloadCvButton } from "@/components/ui/DownloadCvButton";
+import { HireMeButton } from "@/components/ui/HireMeButton";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { ABOUT_INTRO } from "@/data/about";
-import { isCvAvailable } from "@/lib/assets/cv";
 import { FocusGrid } from "./FocusGrid";
 
 /**
  * Right column of the About hero: eyebrow, "About Me", two paragraphs,
- * Professional Focus tiles and the Download CV action.
+ * Professional Focus tiles and the Hire Me action.
  */
 export function AboutIntro() {
-  const cvNote = isCvAvailable() ? "PDF · Professional CV" : "PDF · Professional CV coming soon";
-
   return (
     <div className="flex min-w-0 flex-col">
       <RevealGroup trigger="mount" className="flex flex-col">
@@ -35,12 +32,9 @@ export function AboutIntro() {
 
       <FocusGrid />
 
-      <RevealGroup trigger="mount" delay={0.5} className="mt-5 flex flex-col items-start gap-2">
+      <RevealGroup trigger="mount" delay={0.5} className="mt-5 flex flex-col items-start">
         <RevealItem>
-          <DownloadCvButton />
-        </RevealItem>
-        <RevealItem as="p" className="text-caption text-muted">
-          {cvNote}
+          <HireMeButton />
         </RevealItem>
       </RevealGroup>
     </div>

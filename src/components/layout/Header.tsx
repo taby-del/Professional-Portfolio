@@ -3,15 +3,15 @@ import { LanguageIndicator } from "@/components/navigation/LanguageIndicator";
 import { MobileMenu } from "@/components/navigation/MobileMenu";
 import { NavLinks } from "@/components/navigation/NavLinks";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
-import { DownloadCvButton } from "@/components/ui/DownloadCvButton";
+import { HireMeButton } from "@/components/ui/HireMeButton";
 
 /**
  * Site header, measured from the Figma frames: 88 px bar, 1 px border,
  * 44 px logo, centred navigation, 44 px controls 8 px apart.
  *
  * - 1280 px+ : full navigation.
- * - 768-1279 : compact navigation (menu button), Download CV kept.
- * - < 768    : logo only, Download CV moves into the menu.
+ * - 768-1279 : compact navigation (menu button), Hire Me kept.
+ * - < 768    : logo only, Hire Me moves into the menu.
  */
 export function Header() {
   return (
@@ -29,10 +29,10 @@ export function Header() {
           <ThemeToggle />
           {/* Wrapper controls visibility; the button's own display stays intact */}
           <div className="hidden tablet:block">
-            <DownloadCvButton />
+            <HireMeButton />
           </div>
           <div className="laptop:hidden">
-            <MobileMenu cv={<DownloadCvButton />} />
+            <MobileMenu cta={<HireMeButton />} />
           </div>
         </div>
       </div>

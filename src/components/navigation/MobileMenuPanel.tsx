@@ -7,14 +7,14 @@ import { MobileNavList } from "./MobileNavList";
 type MobileMenuPanelProps = {
   open: boolean;
   onClose: () => void;
-  cv: ReactNode;
+  cta: ReactNode;
 };
 
 /**
  * Menu content, matched to the Figma mobile-menu frames: close bar,
- * "Navigate the portfolio", six destinations, Download CV, languages.
+ * "Navigate the portfolio", six destinations, Hire Me, languages.
  */
-export function MobileMenuPanel({ open, onClose, cv }: MobileMenuPanelProps) {
+export function MobileMenuPanel({ open, onClose, cta }: MobileMenuPanelProps) {
   return (
     <div className="flex flex-col gap-3 p-6">
       <button
@@ -32,7 +32,7 @@ export function MobileMenuPanel({ open, onClose, cv }: MobileMenuPanelProps) {
 
       <MobileNavList open={open} onNavigate={onClose} />
 
-      <div className="pt-1">{cv}</div>
+      <div className="pt-1">{cta}</div>
       <p className="text-caption text-muted">English &amp; French</p>
     </div>
   );

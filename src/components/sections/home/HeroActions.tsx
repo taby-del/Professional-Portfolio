@@ -1,10 +1,10 @@
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { SecondaryButton } from "@/components/ui/button/SecondaryButton";
-import { DownloadCvButton } from "@/components/ui/DownloadCvButton";
+import { HireMeButton } from "@/components/ui/HireMeButton";
 import { HOME_HERO } from "@/data/home";
 
-/** Hero calls to action: View My Projects, Download CV, Contact link. */
+/** Hero calls to action: View My Projects, Hire Me, Contact link. */
 export function HeroActions() {
   const { primaryAction, contactLink } = HOME_HERO;
 
@@ -14,7 +14,7 @@ export function HeroActions() {
         <SecondaryButton href={primaryAction.href} size="compact">
           {primaryAction.label}
         </SecondaryButton>
-        <DownloadCvButton size="compact" />
+        <HireMeButton size="compact" />
       </div>
 
       <Link
