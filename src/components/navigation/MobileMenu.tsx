@@ -11,9 +11,9 @@ const MENU_ID = "mobile-menu";
  * Compact-navigation menu (below 1280 px). Built on the native <dialog>
  * element, which gives the handoff's requirements for free: focus is
  * trapped inside, Escape closes, focus returns to the trigger, and the
- * page behind is inert. `cta` is the server-rendered Hire Me button.
+ * page behind is inert. `cv` is the server-rendered Download CV button.
  */
-export function MobileMenu({ cta }: { cta: ReactNode }) {
+export function MobileMenu({ cv }: { cv: ReactNode }) {
   const dialog = useRef<HTMLDialogElement>(null);
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
@@ -40,7 +40,7 @@ export function MobileMenu({ cta }: { cta: ReactNode }) {
         onClick={(event) => event.target === dialog.current && close()}
         className="mobile-menu"
       >
-        <MobileMenuPanel open={open} onClose={close} cta={cta} />
+        <MobileMenuPanel open={open} onClose={close} cv={cv} />
       </dialog>
     </>
   );

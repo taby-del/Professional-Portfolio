@@ -238,7 +238,7 @@ professional-portfolio/
     │   │       ├── HeroIntro.tsx      Status, name, roles, headline, intro, actions
     │   │       ├── StatusBadge.tsx    "● Open to opportunities" (pulsing dot)
     │   │       ├── HeroHeadline.tsx   Word-by-word blur-to-sharp headline
-    │   │       ├── HeroActions.tsx    View My Projects, Hire Me, Contact link
+    │   │       ├── HeroActions.tsx    View My Projects, Download CV, Contact link
     │   │       ├── CraftCard.tsx      "Digital craft / Workspace" card
     │   │       ├── CraftStepItem.tsx  One step: Understand / Design / Build
     │   │       └── TechStrip.tsx      "Design × Engineering" toolkit tags
@@ -252,7 +252,7 @@ professional-portfolio/
     │       │   ├── ButtonBase.tsx    Picks <button>, <Link> or <a>
     │       │   ├── PrimaryButton.tsx
     │       │   └── SecondaryButton.tsx
-    │       ├── HireMeButton.tsx  The one shared "Hire Me" action (to /contact)
+    │       ├── DownloadCvButton.tsx  The one shared "Download CV" action
     │       ├── Eyebrow.tsx           "02 / ABOUT" page eyebrow
     │       ├── SkillTile.tsx         Skill/focus tile (comfortable, compact, row)
     │       └── icon-control.ts       Shared 44 px square control style
@@ -399,7 +399,7 @@ Each colour is defined once, with the CSS `light-dark()` function, in `src/style
 
 Matched to the Figma "Interaction states" sheet and the page headers. Both buttons are 48 px tall, with 8 px corners and a 13 px semibold Inter label.
 
-**Sizes:** `size="default"` has 24 px side padding and is used in the header, About and Contact (the Download CV slot in the design is 134 px wide; Hire Me now fills it). `size="compact"` has 18 px padding and is used in the approved Home hero (Hire Me fills the 122 px Download CV slot).
+**Sizes:** `size="default"` has 24 px side padding and is used in the header, About and Contact (Download CV is 134 px wide, as in the design). `size="compact"` has 18 px padding and is used in the approved Home hero (Download CV is 122 px).
 
 | State | `PrimaryButton` | `SecondaryButton` |
 | --- | --- | --- |
@@ -421,7 +421,7 @@ Matched to the Figma "Interaction states" sheet and the page headers. Both butto
 - **Primary hover:** the design's hover frame is pixel-identical to its default. A soft glow was added so hovering gives visible feedback. Remove the `hover:shadow` line in `variants.ts` to match Figma exactly.
 - **Press-in:** the 98% press-in is skipped for visitors who prefer reduced motion.
 
-**`HireMeButton`** is the one "Hire Me" action used everywhere (header, mobile menu, Home, About). It replaced the disabled "Download CV" button on 2026-11-19 (owner request) and is always enabled: it links to `/contact`, where visitors send a collaboration request.
+**`DownloadCvButton`** is the one "Download CV" action used everywhere. It links directly to `/documents/Taby_Takoundjou_Jeff_Obrile_Frontend_Developer_CV.pdf` with the `download` attribute, same-origin and with the real file name. At build time it checks that the PDF exists in `public/documents/`. Until it does, the button renders **disabled** ("CV coming soon"), so the site never publishes a broken download, as the handoff requires.
 
 ### Components: header, mobile menu, footer
 
@@ -429,9 +429,9 @@ Measured from the Figma header, footer and mobile-menu exports.
 
 | Width | Header behaviour |
 | --- | --- |
-| 1280 px and up | Logo and name, six centred links (13 px, 22 px apart), EN, theme toggle, Hire Me. 88 px bar with a 1 px border. |
-| 768–1279 px | Compact: links move into the menu. Name, EN, theme, Hire Me and the menu button stay. |
-| Under 768 px | Logo only (the name doesn't fit), EN, theme and the menu button. Hire Me moves into the menu. |
+| 1280 px and up | Logo and name, six centred links (13 px, 22 px apart), EN, theme toggle, Download CV. 88 px bar with a 1 px border. |
+| 768–1279 px | Compact: links move into the menu. Name, EN, theme, Download CV and the menu button stay. |
+| Under 768 px | Logo only (the name doesn't fit), EN, theme and the menu button. Download CV moves into the menu. |
 
 - **Active page:** brand blue and semibold, announced with `aria-current="page"`. Hover is a readable blue label on a subtle tint (150 ms).
 - **Mobile menu:** built on the native `<dialog>` element, so it gets what the handoff asks for with no extra code:
@@ -452,7 +452,7 @@ Built from the approved Home 1440 export. Every position was measured from the e
 
 | Part | Details |
 | --- | --- |
-| Intro (left) | Pulsing "Open to opportunities" status, name (18 px), roles (13 px brand blue), headline (72 px), intro (16/26), View My Projects + Hire Me (compact), "Let's connect / Contact ↗" |
+| Intro (left) | Pulsing "Open to opportunities" status, name (18 px), roles (13 px brand blue), headline (72 px), intro (16/26), View My Projects + Download CV (compact), "Let's connect / Contact ↗" |
 | Digital Craft card (right) | 386 px card, `#F7F9FC` surface; three steps (Understand, Design highlighted with tint and brand border, Build); the human + AI note |
 | Technology strip | Divider, "DESIGN × ENGINEERING" eyebrow, five mono tags |
 | 1440 / 1280 | Two columns, vertically centred. At 1280 the headline wraps to four lines (handoff: "content wraps naturally"). |
@@ -473,7 +473,7 @@ Built from the approved About 1440 export, measured and checked in the browser.
 | Part | Details |
 | --- | --- |
 | Portrait column (424 px) | Owner photo in a 4:5 frame with a 1 px border, then the blue-tinted role card (roles, Cameroon, English & French) |
-| Intro column | "02 / ABOUT", "About Me" (44 px), lead paragraph (18/28), body paragraph (16/26), "Professional Focus" with four compact skill tiles, Hire Me |
+| Intro column | "02 / ABOUT", "About Me" (44 px), lead paragraph (18/28), body paragraph (16/26), "Professional Focus" with four compact skill tiles, Download CV + caption |
 | My Approach | 32 px heading, summary, three numbered cards (Understand → Structure → Build) |
 | Details | Education and Professional Interests cards |
 | 768 to 1279 | The About Me text sits beside the portrait (owner request) in a 2:3 split with a 32 px gap. Professional Focus tiles go two per row once each tile has 240 px, otherwise one per row. |
@@ -482,6 +482,7 @@ Built from the approved About 1440 export, measured and checked in the browser.
 - **Portrait framing:** the photo is drawn at 140% of the frame width and offset, so the crop matches the design exactly (head near the top, cut at the stool seat). Plain `object-cover` showed the whole figure, which is too loose. Percentages keep the same framing at every size.
 - **Skill tiles:** `SkillTile` is the shared tile from the handoff, and the Skills page reuses it. About uses the `compact` density. Icons are Lucide icons, inline brand logos (Figma) or short blue monograms ("API", "{ }").
 - **Education:** worded exactly as the handoff allows. No degree or completion status is claimed.
+- **CV caption:** shows "PDF · Professional CV" once the PDF is added, and "… coming soon" until then. The design's "supplied during development" was a note for the developer, not copy for visitors.
 - **Measured against the design:** at 1440, every block lands within 0–3 px (portrait 168–698, role card 714–832, approach cards 994–1157).
 - **Approach card padding:** 22 px instead of 24 px. With a 15 px Windows scrollbar, the third card's text would otherwise wrap onto a third line, 1 px short.
 
@@ -660,7 +661,7 @@ The design calls for professional, refined animation, and for animations that wo
 
 The status dot pulses gently, and the contact arrow nudges on hover. All of this uses transform, opacity and blur only, and movement is removed under reduced motion.
 
-**About choreography:** the portrait fades in while the intro lines rise in turn, then the focus tiles cascade, then Hire Me appears. My Approach and the detail cards reveal as they scroll into view.
+**About choreography:** the portrait fades in while the intro lines rise in turn, then the focus tiles cascade, then Download CV appears. My Approach and the detail cards reveal as they scroll into view.
 
 **Projects choreography:**
 - Each project's cover, info and details rise in as it scrolls into view, then the cover's devices arrive one after another.
@@ -756,6 +757,7 @@ The site is built one step at a time. Each step is checked against the design, t
 
 | Item | Where it goes | Until then |
 | --- | --- | --- |
+| CV PDF | `public/documents/Taby_Takoundjou_Jeff_Obrile_Frontend_Developer_CV.pdf` | Download CV buttons are disabled ("CV coming soon") |
 | Supabase + Resend values **in Vercel** | Vercel → Project → Settings → Environment Variables (same names as `.env.local`) | Done locally (2026-11-17); the live site needs them too |
 | Hosting | Vercel (recommended for Next.js): import the GitHub repo, production branch `main` | Runs locally only |
 | Real project screenshots (with permission) | `public/images/projects/<project>/` | Labelled illustrative covers |
@@ -767,11 +769,16 @@ The site is built one step at a time. Each step is checked against the design, t
 
 Every step taken on the project, newest first. **Add an entry for every change.**
 
+### 2026-11-20: Download CV restored with the real CV
+
+- **Owner request:** the CV is now exported from Figma, so the Hire Me change of 2026-11-19 is undone and the **Download CV** button is back everywhere (header, mobile menu, Home hero, About), done with `git revert`.
+- **CV file:** `public/documents/Taby_Takoundjou_Jeff_Obrile_Frontend_Developer_CV.pdf` (one page, 1.4 MB, Figma export, no encryption or scripts). Renamed from the owner’s `Jeff-CV.pdf` so visitors get a descriptive file name.
+- **Enabled automatically:** `isCvAvailable()` finds the PDF at build time, so the buttons are active and the About caption reads "PDF · Professional CV".
+- **Verified** in the browser: the PDF is served (200, application/pdf) and every Download CV link points to it with the `download` attribute.
+
 ### 2026-11-19: "Hire Me" replaces "Download CV"
 
-- **Owner request:** every "Download CV" button (header, mobile menu, Home hero, About) becomes an enabled **Hire Me** button that opens the Contact page. The CV button stayed disabled because no PDF was supplied, so visitors had no working call to action there.
-- **Code:** new `HireMeButton` (a `PrimaryButton` linking to `/contact`). Removed `DownloadCvButton`, `lib/assets/cv.ts`, the `CV` constant and the About "CV coming soon" caption. The mobile menu prop is now `cta`.
-- **Verified** in the browser: Hire Me is enabled in the header, mobile menu, Home and About, and opens /contact.
+- **Owner request:** every "Download CV" button became an enabled **Hire Me** button opening the Contact page, because no CV PDF had been supplied yet. Undone on 2026-11-20 (see above).
 
 ### 2026-11-19: About Me beside the portrait at every width from 768
 
