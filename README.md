@@ -205,7 +205,7 @@ professional-portfolio/
     │   │   │   ├── AboutPage.tsx       Layout: portrait column + intro, then sections
     │   │   │   ├── Portrait.tsx        Owner photo, 4:5, framed as in the design
     │   │   │   ├── RoleCard.tsx        Roles, location, languages
-    │   │   │   ├── AboutIntro.tsx      Eyebrow, "About Me", paragraphs, CV
+    │   │   │   ├── AboutIntro.tsx      "About Me", paragraphs, CV
     │   │   │   ├── FocusGrid.tsx       "Professional Focus" tiles
     │   │   │   ├── ApproachSection.tsx "My Approach" three steps
     │   │   │   └── AboutDetails.tsx    Education + Professional Interests
@@ -253,9 +253,9 @@ professional-portfolio/
     │       │   ├── PrimaryButton.tsx
     │       │   └── SecondaryButton.tsx
     │       ├── DownloadCvButton.tsx  The one shared "Download CV" action
-    │       ├── Eyebrow.tsx           "02 / ABOUT" page eyebrow
+    │       ├── Eyebrow.tsx           Small uppercase label ("PRIMARY PRACTICE")
     │       ├── SkillTile.tsx         Skill/focus tile (comfortable, compact, row)
-    │       └── icon-control.ts       Shared 44 px square control style
+    │       └── icon-control.ts       Shared 40 px square control style
     ├── config/
     │   └── security/
     │       ├── csp.ts         Content-Security-Policy rules and builder
@@ -387,7 +387,7 @@ Each colour is defined once, with the CSS `light-dark()` function, in `src/style
 | Token          | Value                                      | Class                          |
 | -------------- | ------------------------------------------ | ------------------------------ |
 | Page gutter    | 24 px (mobile), 40 px (768+), 96 px (1280+) | `px-gutter`                   |
-| Control height | 48 px (buttons)                            | `h-control`                    |
+| Control height | 40 px (buttons; 48 px in the design, reduced at owner request) | `h-control` |
 | Touch target   | 44 px minimum                              | `size-touch`, `min-h-touch`    |
 | Page width     | 1440 px                                    | `max-w-page`                   |
 | Radii          | 8 px controls, 12 px cards, 16 px panels   | `rounded-control`, `rounded-card`, `rounded-panel` |
@@ -397,7 +397,7 @@ Each colour is defined once, with the CSS `light-dark()` function, in `src/style
 
 ### Components: buttons
 
-Matched to the Figma "Interaction states" sheet and the page headers. Both buttons are 48 px tall, with 8 px corners and a 13 px semibold Inter label.
+Matched to the Figma "Interaction states" sheet and the page headers. Both buttons are 40 px tall (reduced from the design’s 48 px at owner request, 2026-11-20), with 8 px corners and a 13 px semibold Inter label.
 
 **Sizes:** `size="default"` has 24 px side padding and is used in the header, About and Contact (Download CV is 134 px wide, as in the design). `size="compact"` has 18 px padding and is used in the approved Home hero (Download CV is 122 px).
 
@@ -473,7 +473,7 @@ Built from the approved About 1440 export, measured and checked in the browser.
 | Part | Details |
 | --- | --- |
 | Portrait column (424 px) | Owner photo in a 4:5 frame with a 1 px border, then the blue-tinted role card (roles, Cameroon, English & French) |
-| Intro column | "02 / ABOUT", "About Me" (44 px), lead paragraph (18/28), body paragraph (16/26), "Professional Focus" with four compact skill tiles, Download CV + caption |
+| Intro column | "About Me" (44 px), lead paragraph (18/28), body paragraph (16/26), "Professional Focus" with four compact skill tiles, Download CV + caption |
 | My Approach | 32 px heading, summary, three numbered cards (Understand → Structure → Build) |
 | Details | Education and Professional Interests cards |
 | 768 to 1279 | The About Me text sits beside the portrait (owner request) in a 2:3 split with a 32 px gap. Professional Focus tiles go two per row once each tile has 240 px, otherwise one per row. |
@@ -492,7 +492,7 @@ Built from the approved Skills 1440 export, measured and checked in the browser.
 
 | Part | Details |
 | --- | --- |
-| Intro | "03 / SKILLS", "A connected set of capabilities." (44 px), 18 px description |
+| Intro | "A connected set of capabilities." (44 px), 18 px description |
 | Category panels | 2 × 2 grid of 612 px panels, 24 px apart. Each has an eyebrow, a 26 px title, a 14 px description and 80 px skill tiles (two columns, 12 px across, 20 px down). Row 2 panels keep their own heights, as designed. |
 | Skills | All **24** labels from the handoff: Frontend (7), UI/UX (7), Backend (5, presented as complementary, as the handoff requires), Tools & Workflow (5) |
 | Icons | HTML5, CSS3 and Figma in brand colours. React, Next.js, Vite, Node.js, MongoDB, PostgreSQL, Git and GitHub in brand blue. JS, TS, UX, API and { } as readable-blue monograms. |
@@ -512,7 +512,7 @@ Built from the approved Projects export (supplied at 806 px wide and scaled to 1
 
 | Part | Details |
 | --- | --- |
-| Intro | "04 / SELECTED PROJECTS", "Interfaces for real-world complexity.", description, and the placeholder notice |
+| Intro | "Interfaces for real-world complexity.", description, and the placeholder notice |
 | Three projects | **Yiino**, **Yiino Freight / InnoFrit** and **Yiino for Business**, 64 px apart. Each has a cover, live info and a "View Project" disclosure. |
 | Cover | Labelled "Illustrative UI placeholder · Not a real product screenshot" (handoff). Blue tint (Yiino, Business) or grey surface (Freight). Project tag, headline, three chips, the device composition, and the "Replace named preview regions…" caption. |
 | Compositions | Built in HTML/CSS, not images, so they're sharp and follow light/dark mode. Yiino: rider phone, partner phone and operations panel. Freight: shipment dashboard and tracking phone. Business: mobility dashboard and voucher panel. Generic cues ("Shipment ID", "Employee name") as the handoff specifies. |
@@ -534,7 +534,7 @@ Built from the approved Experience 1440 export, measured and checked in the brow
 
 | Part | Details |
 | --- | --- |
-| Intro | "05 / EXPERIENCE", "Building in collaboration.", description |
+| Intro | "Building in collaboration.", description |
 | Meta column (256 px) | "PROFESSIONAL EXPERIENCE", "Since September 2025", "Yiino Corp Cameroon" |
 | Role card | "Technical Developer" (32 px), "Yiino Corporation / Yiino Corp Cameroon" in blue, summary. Then three white focus areas (01 Engineering, 02 Experience design, 03 Quality & collaboration) and the relevant toolkit. |
 | Education banner | Tinted: Computer Science and Engineering, Institut Universitaire de la Côte (IUC), Cameroon |
@@ -550,7 +550,7 @@ Built from the approved Contact 1440 export, measured and checked in the browser
 
 | Part | Details |
 | --- | --- |
-| Left column | "06 / CONTACT", "Let's Build Something Together.", the invitation, three channel cards, the closing lines |
+| Left column | "Let's Build Something Together.", the invitation, three channel cards, the closing lines |
 | Channel cards | **Email** (`tabytakoundjou@gmail.com`, opens the mail app), **LinkedIn** (`linkedin.com/in/jeff-obrile-06a1a9450`, new tab) and **GitHub** (`github.com/taby-del`, new tab). |
 | Form card | "Start a conversation.": Full Name, Email Address, Subject, Message, Send Message, and the status line |
 | Below 1280 | The columns stack (handoff: stacked Contact at 768 and 390), with no overflow at 390 |
@@ -768,6 +768,13 @@ The site is built one step at a time. Each step is checked against the design, t
 ## Development log
 
 Every step taken on the project, newest first. **Add an entry for every change.**
+
+### 2026-11-20: Smaller header controls and buttons, no numbered labels
+
+- **Owner request:** the header controls and buttons looked too big, and the numbered labels ("02 / ABOUT" to "06 / CONTACT") didn’t look professional.
+- **Sizes:** EN, the theme toggle and the menu button are now 40 px squares (were 44 px) with 18 px icons (were 20 px). Every button (Download CV, View My Projects, Send Message…) is 40 px tall (was 48 px), with 20 px side padding (16 px in the Home hero). Tokens: `--spacing-control` and `BUTTON_SIZES`. 40 px still clears the WCAG 2.2 AA target size (24 px).
+- **Labels:** removed the page labels on About, Skills, Projects, Experience and Contact, and the "01 /" numbering from the Skills panels, project cards and Experience role areas. Their wording stays ("Primary practice", "Mobility & on-demand services platform").
+- **Verified** in the browser at 1440 and 1024 px: controls measure 40 × 40, buttons 40 px tall, and no page shows a numbered label.
 
 ### 2026-11-20: Download CV restored with the real CV
 

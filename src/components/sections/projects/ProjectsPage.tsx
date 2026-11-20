@@ -1,6 +1,5 @@
 import { RevealGroup } from "@/components/motion/RevealGroup";
 import { RevealItem } from "@/components/motion/RevealItem";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { PROJECTS, PROJECTS_INTRO } from "@/data/projects";
 import { ProjectArticle } from "./ProjectArticle";
 
@@ -12,10 +11,7 @@ export function ProjectsPage() {
   return (
     <div className="mx-auto w-full max-w-page px-gutter pt-20 pb-28">
       <RevealGroup trigger="mount" className="flex flex-col">
-        <RevealItem>
-          <Eyebrow>{PROJECTS_INTRO.eyebrow}</Eyebrow>
-        </RevealItem>
-        <RevealItem as="div" className="mt-3.5">
+        <RevealItem as="div">
           <h1 className="text-page-title font-semibold text-foreground">{PROJECTS_INTRO.title}</h1>
         </RevealItem>
         <RevealItem as="p" className="mt-5 text-body-lg text-muted">

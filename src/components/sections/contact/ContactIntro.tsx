@@ -1,6 +1,5 @@
 import { RevealGroup } from "@/components/motion/RevealGroup";
 import { RevealItem } from "@/components/motion/RevealItem";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { CONTACT_CHANNELS, CONTACT_INTRO } from "@/data/contact";
 import { ContactChannel } from "./ContactChannel";
 
@@ -8,8 +7,7 @@ import { ContactChannel } from "./ContactChannel";
 export function ContactIntro() {
   return (
     <RevealGroup trigger="mount" className="flex min-w-0 flex-col">
-      <RevealItem><Eyebrow>{CONTACT_INTRO.eyebrow}</Eyebrow></RevealItem>
-      <RevealItem as="div" className="mt-5">
+      <RevealItem as="div">
         <h1 className="max-w-[26rem] text-page-title font-semibold text-foreground">{CONTACT_INTRO.title}</h1>
       </RevealItem>
       <RevealItem as="p" className="mt-6 text-body-lg text-muted">{CONTACT_INTRO.description}</RevealItem>

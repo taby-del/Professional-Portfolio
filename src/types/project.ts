@@ -8,7 +8,7 @@ export type CoverKind = "yiino" | "freight" | "business";
  */
 export type Project = {
   id: string;
-  /** "01 / Mobility & on-demand services platform" */
+  /** "Mobility & on-demand services platform" */
   eyebrow: string;
   title: string;
   description: string;

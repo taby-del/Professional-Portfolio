@@ -14,8 +14,7 @@ export function ExperiencePage() {
   return (
     <div className="mx-auto w-full max-w-page px-gutter pt-20 pb-28">
       <RevealGroup trigger="mount" className="flex flex-col">
-        <RevealItem><Eyebrow>{EXPERIENCE_INTRO.eyebrow}</Eyebrow></RevealItem>
-        <RevealItem as="div" className="mt-3.5">
+        <RevealItem as="div">
           <h1 className="text-page-title font-semibold text-foreground">{EXPERIENCE_INTRO.title}</h1>
         </RevealItem>
         <RevealItem as="p" className="mt-5 text-body-lg text-muted">{EXPERIENCE_INTRO.description}</RevealItem>

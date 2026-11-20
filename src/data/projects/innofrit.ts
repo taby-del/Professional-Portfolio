@@ -3,7 +3,7 @@ import type { Project } from "@/types/project";
 /** Yiino Freight / InnoFrit, from the approved Projects design. */
 export const INNOFRIT: Project = {
   id: "innofrit",
-  eyebrow: "02 / Logistics & freight marketplace",
+  eyebrow: "Logistics & freight marketplace",
   title: "YIINO FREIGHT / INNOFRIT",
   description:
     "A logistics marketplace designed to connect shippers, carrier companies, independent drivers and logistics operators through a structured digital freight ecosystem.",

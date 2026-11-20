@@ -22,7 +22,7 @@ export function ThemeToggle() {
       title={`Switch to ${next} theme`}
       className={ICON_CONTROL}
     >
-      <Contrast aria-hidden="true" className="size-5" strokeWidth={1.75} />
+      <Contrast aria-hidden="true" className="size-[1.125rem]" strokeWidth={1.75} />
     </button>
   );
 }
