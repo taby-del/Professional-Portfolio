@@ -1,0 +1,43 @@
+/*
+ * Colour tokens, sampled from the approved Figma exports.
+ * Each value is light-dark(<light>, <dark>). The active `color-scheme`
+ * picks one: light by default (owner request), or <html data-theme="dark">
+ * once the visitor chooses dark with the theme toggle.
+ */
+:root {
+  color-scheme: light;
+
+  /* Brand */
+  --brand-primary: #08a3fb;
+  --brand-primary-deep: #1078bc;
+  /* Owner request (2026-11-17): light blue on top, deep blue at bottom */
+  --brand-gradient: linear-gradient(180deg, #08a3fb 0%, #1078bc 100%);
+
+  /* Surfaces */
+  --background: light-dark(#ffffff, #080d16);
+  --surface: light-dark(#f7f9fc, #101827);
+  --tint: light-dark(#eaf4ff, #142b45);
+
+  /* Text */
+  --foreground: light-dark(#111827, #f8fafc);
+  --muted: light-dark(#64748b, #a3b1c6);
+  --accent-readable: light-dark(#1078bc, #08a3fb);
+  --on-primary: #ffffff;
+
+  /* Lines and focus */
+  --border: light-dark(#e5eaf1, #1e293b);
+  --border-strong: light-dark(#cbd5e1, #e5eaf1);
+  --ring: var(--brand-primary);
+
+  /* Status */
+  --error: light-dark(#b92339, #ff8796);
+  --success: light-dark(#187746, #65d69a);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}

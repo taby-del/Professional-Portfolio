@@ -1,0 +1,6 @@
+/* Custom Tailwind utilities for brand styles. */
+
+/* Primary button gradient: top #08A3FB -> bottom #1078BC (180deg) */
+@utility bg-brand-gradient {
+  background-image: var(--brand-gradient);
+}

@@ -1,0 +1,18 @@
+/*
+ * Theme switch cross-fade (handoff: "update background, foreground and
+ * border colors together over 180 ms; do not use transition: all").
+ *
+ * The class is added to <html> only while a switch is in progress
+ * (src/lib/theme/dom.ts), so it never slows down normal hover effects.
+ * With reduced motion the class is never added: the switch is instant.
+ */
+.theme-transition,
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+  transition-property: background-color, color, border-color, fill, stroke,
+    outline-color !important;
+  transition-duration: 180ms !important;
+  transition-timing-function: ease-out !important;
+  transition-delay: 0ms !important;
+}

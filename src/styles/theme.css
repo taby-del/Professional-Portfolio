@@ -1,0 +1,34 @@
+/*
+ * Tailwind theme: exposes the tokens in tokens.css as utilities
+ * (bg-surface, text-muted, border-border, text-error, ...).
+ */
+
+/* `dark:` targets an explicit <html data-theme="dark">. Prefer semantic
+   tokens, which already adapt to the theme without `dark:` overrides. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@theme inline {
+  --color-primary: var(--brand-primary);
+  --color-primary-deep: var(--brand-primary-deep);
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-tint: var(--tint);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-accent-readable: var(--accent-readable);
+  --color-on-primary: var(--on-primary);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-ring: var(--ring);
+  --color-error: var(--error);
+  --color-success: var(--success);
+  --color-primary-pressed: var(--primary-pressed);
+  --color-press-overlay: var(--press-overlay);
+  --color-field-border: var(--field-border);
+
+  /* Fonts: variables set by next/font in src/lib/fonts.ts */
+  --font-sans:
+    var(--font-inter-latin), var(--font-inter-ext), ui-sans-serif, system-ui,
+    sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+}

@@ -1,0 +1,24 @@
+/*
+ * Geometry scales from the Figma "Geometry" collection (type scale lives
+ * in typography.css). Each variable becomes a Tailwind utility
+ * (--spacing-gutter -> px-gutter, --radius-control -> rounded-control).
+ */
+@theme {
+  /* Layout: page gutter 24 -> 40 -> 96 px, set per breakpoint in base.css */
+  --spacing-gutter: var(--page-gutter);
+  --spacing-section: clamp(4rem, 8vw, 6rem);
+  --spacing-control: 3rem; /* 48 px button height */
+  --spacing-touch: 2.75rem; /* 44 px minimum touch target */
+  --container-page: 90rem; /* 1440 px */
+
+  /* Radii */
+  --radius-tag: 0.25rem; /* technology tags */
+  --radius-control: 0.5rem; /* buttons, fields, nav items, step boxes */
+  --radius-card: 0.75rem;
+  --radius-panel: 1rem; /* large cards and panels */
+
+  /* Breakpoints matching the design widths */
+  --breakpoint-tablet: 48rem; /* 768 */
+  --breakpoint-laptop: 80rem; /* 1280 */
+  --breakpoint-desktop: 90rem; /* 1440 */
+}

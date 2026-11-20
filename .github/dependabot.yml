@@ -1,0 +1,25 @@
+# Dependabot: weekly pull requests for outdated or vulnerable packages.
+# Updates target the Dev branch (see README > Git workflow) and must pass
+# `npm run check` and `npm run build` before merging.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    target-branch: Dev
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: chore
+      include: scope
+    groups:
+      # Framework packages that must move together
+      next-react:
+        patterns: ["next", "react", "react-dom", "eslint-config-next", "@types/react*"]
+      # Animation and icons
+      ui-libraries:
+        patterns: ["motion", "lucide-react"]
+      # Styling, fonts and tooling
+      tooling:
+        patterns: ["tailwindcss", "@tailwindcss/*", "@fontsource-variable/*", "typescript", "eslint", "@types/node"]

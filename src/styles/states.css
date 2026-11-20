@@ -1,0 +1,23 @@
+/*
+ * Interaction-state tokens, sampled from the Figma "Interaction states"
+ * sheet (docs/design-handoff.md > Interaction contract).
+ *
+ * Pressed: brand blue shifts lighter on light surfaces and darker on dark
+ * surfaces (#08A3FB -> #2CB0FB light, -> #098EDB dark).
+ * Disabled: 45% opacity in both themes.
+ */
+:root {
+  /* Border and label of a pressed secondary button */
+  --primary-pressed: light-dark(#2cb0fb, #098edb);
+
+  /* Layer over the primary gradient while pressed */
+  --press-overlay: light-dark(rgb(255 255 255 / 0.16), rgb(0 0 0 / 0.13));
+
+  /* Soft brand glow under a hovered primary button */
+  --primary-glow: rgb(8 163 251 / 0.45);
+
+  --disabled-opacity: 0.45;
+
+  /* Form field outline (interaction sheet: light grey; lighter on dark) */
+  --field-border: light-dark(#e5eaf1, rgb(229 234 241 / 0.45));
+}
