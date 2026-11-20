@@ -4,7 +4,6 @@ import { YIINO_BUSINESS } from "./yiino-business";
 
 /** Projects page intro and placeholder notice (approved design). */
 export const PROJECTS_INTRO = {
-  eyebrow: "04 / Selected projects",
   title: "Interfaces for real-world complexity.",
   description:
     "Product design and frontend development across mobility, logistics and corporate operations.",

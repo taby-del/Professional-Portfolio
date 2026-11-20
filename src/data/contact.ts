@@ -2,7 +2,6 @@ import { EMAIL, SOCIAL_LINKS } from "@/constants/site";
 
 /** Contact page content, from the approved design (Figma, Contact 1440). */
 export const CONTACT_INTRO = {
-  eyebrow: "06 / Contact",
   title: "Let's Build Something Together.",
   description:
     "I'm always interested in meaningful technology projects, professional opportunities and collaborations where I can contribute through development and design.",

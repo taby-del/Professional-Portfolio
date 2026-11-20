@@ -7,7 +7,7 @@
   /* Layout: page gutter 24 -> 40 -> 96 px, set per breakpoint in base.css */
   --spacing-gutter: var(--page-gutter);
   --spacing-section: clamp(4rem, 8vw, 6rem);
-  --spacing-control: 3rem; /* 48 px button height */
+  --spacing-control: 2.5rem; /* 40 px button height (owner: smaller, 2026-11-20) */
   --spacing-touch: 2.75rem; /* 44 px minimum touch target */
   --container-page: 90rem; /* 1440 px */
 

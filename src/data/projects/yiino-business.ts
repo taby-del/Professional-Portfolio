@@ -3,7 +3,7 @@ import type { Project } from "@/types/project";
 /** Yiino for Business, from the approved Projects design. */
 export const YIINO_BUSINESS: Project = {
   id: "yiino-business",
-  eyebrow: "03 / Corporate mobility management",
+  eyebrow: "Corporate mobility management",
   title: "YIINO FOR BUSINESS",
   description:
     "A corporate mobility platform designed to help organizations manage employee transportation, business programs, service access and spending.",

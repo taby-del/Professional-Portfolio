@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 /**
- * Page eyebrow above a title: "02 / ABOUT", "05 / EXPERIENCE".
+ * Small label above a title: "PRIMARY PRACTICE", "EDUCATION".
  * 11 px JetBrains Mono, uppercase, brand blue.
  */
 export function Eyebrow({ children }: { children: ReactNode }) {

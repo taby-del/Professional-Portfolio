@@ -33,12 +33,12 @@ export const BUTTON_VARIANTS = {
 } as const;
 
 /**
- * Side padding. `default` (24 px) is the design-system button (header,
- * About, Contact); `compact` (18 px) is the approved Home hero.
+ * Side padding. `default` (20 px) is the design-system button (header,
+ * About, Contact); `compact` (16 px) is the approved Home hero.
  */
 export const BUTTON_SIZES = {
-  default: "px-6",
-  compact: "px-[1.125rem]",
+  default: "px-5",
+  compact: "px-4",
 } as const;
 
 export type ButtonVariant = keyof typeof BUTTON_VARIANTS;

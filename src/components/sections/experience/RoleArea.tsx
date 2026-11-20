@@ -7,7 +7,7 @@ type RoleAreaProps = {
   items: readonly string[];
 };
 
-/** One white sub-card in the role card: "01 / Engineering" + list. */
+/** One white sub-card in the role card: "Engineering" + list. */
 export function RoleArea({ eyebrow, title, items }: RoleAreaProps) {
   return (
     <RevealItem as="li" className="rounded-card bg-background p-5">

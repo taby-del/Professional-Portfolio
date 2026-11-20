@@ -4,7 +4,6 @@
  * one employer since September 2025; education without a degree claim.
  */
 export const EXPERIENCE_INTRO = {
-  eyebrow: "05 / Experience",
   title: "Building in collaboration.",
   description:
     "A frontend-focused role connecting interface design, product workflows and technical implementation.",
@@ -19,9 +18,9 @@ export const ROLE = {
   summary:
     "I contribute to the design and development of digital products, translating requirements into usable interfaces and working with engineering and product teams on connected features.",
   areas: [
-    { eyebrow: "01 / Engineering", title: "Frontend & integration", items: ["Frontend Development", "API Integration", "Product Feature Development"] },
-    { eyebrow: "02 / Experience design", title: "Design & product thinking", items: ["UI/UX Design and Prototyping", "Technical Analysis", "Business workflow understanding"] },
-    { eyebrow: "03 / Quality & collaboration", title: "Refine & deliver", items: ["Debugging", "Application Performance Improvements", "Collaboration with Engineering and Product Teams", "AI-Assisted Development Workflows"] },
+    { eyebrow: "Engineering", title: "Frontend & integration", items: ["Frontend Development", "API Integration", "Product Feature Development"] },
+    { eyebrow: "Experience design", title: "Design & product thinking", items: ["UI/UX Design and Prototyping", "Technical Analysis", "Business workflow understanding"] },
+    { eyebrow: "Quality & collaboration", title: "Refine & deliver", items: ["Debugging", "Application Performance Improvements", "Collaboration with Engineering and Product Teams", "AI-Assisted Development Workflows"] },
   ],
   toolkit: ["JavaScript", "TypeScript", "React", "Figma", "Git", "API Integration"],
 } as const;

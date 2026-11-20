@@ -5,7 +5,6 @@ import type { SkillIcon } from "@/types/skill";
  * 1440). Facts follow docs/design-handoff.md > Professional identity.
  */
 export const ABOUT_INTRO = {
-  eyebrow: "02 / About",
   title: "About Me",
   lead: "I'm a technology professional passionate about building modern digital experiences through frontend development, interface design and practical software engineering.",
   body: "My work combines frontend engineering, thoughtful UI/UX design, system analysis and AI-assisted development to transform business requirements into practical digital products.",
