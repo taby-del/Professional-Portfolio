@@ -9,6 +9,7 @@ import { BRAND_COLORS } from "@/constants/theme";
 import { SITE } from "@/constants/site";
 import { fontVariables } from "@/lib/fonts";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next"
 
 export const metadata: Metadata = {
   title: { default: SITE.title, template: `%s · ${SITE.name}` },
